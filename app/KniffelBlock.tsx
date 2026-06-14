@@ -252,7 +252,7 @@ function UpperSection({
         {players.map((p, index) => (
           <div
             key={p.id}
-            className="snap-start flex-1 shrink-0 min-w-[100px] sm:min-w-[120px] border-l border-gray-300 p-1 bg-white relative flex items-center justify-center"
+            className="snap-start flex-1 shrink-0 min-w-[120px] border-l border-gray-300 p-1 bg-white relative flex items-center justify-center"
           >
             <div className="flex items-center gap-0.5 w-full">
               <input
