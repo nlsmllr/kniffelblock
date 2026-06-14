@@ -161,8 +161,11 @@ export function Kniffelblock() {
     <div className="mx-auto w-full max-w-5xl sm:p-12 p-3">
       <Header onAdd={addPlayer} onReset={reset} />
 
-      {/* Container: Dynamische Viewport-Höhe (dvh) für Mobile, 80vh für Desktop */}
-      <div className="overflow-auto max-h-[calc(100dvh-140px)] sm:max-h-[80vh] w-full rounded-xl border-2 border-rose-600 bg-white shadow-sm">
+      {/* Container: 
+          - snap-x snap-mandatory für den harten horizontalen Stop
+          - scroll-pl-[130px] sm:scroll-pl-[160px] damit es nicht unter dem fixierten Header einrastet 
+      */}
+      <div className="overflow-auto snap-x snap-mandatory scroll-pl-[130px] sm:scroll-pl-[160px] max-h-[calc(100dvh-140px)] sm:max-h-[80vh] w-full rounded-xl border-2 border-rose-600 bg-white shadow-sm">
         <div className="flex flex-col w-full min-w-max">
           <UpperSection
             players={players}
@@ -172,7 +175,6 @@ export function Kniffelblock() {
             canRemove={players.length > 1}
           />
 
-          {/* Visual divider between Upper and Lower sections */}
           <div className="h-3 w-full bg-rose-50 border-y border-rose-200" />
 
           <LowerSection players={players} onScore={setScore} />
@@ -253,13 +255,13 @@ function UpperSection({
 }) {
   return (
     <section className="flex flex-col w-full">
-      {/* header row with player names - Sticky an die obere Kante angeheftet */}
       <Row className="sticky top-0 z-30 bg-white shadow-sm border-b-2 border-rose-200">
         <LabelCell className="text-gray-900" isHeader />
         {players.map((p) => (
           <div
             key={p.id}
-            className="min-w-[75px] sm:min-w-[90px] flex-1 shrink-0 border-l border-gray-300 p-1 bg-white relative flex items-center justify-center"
+            // snap-start hinzugefügt
+            className="snap-start min-w-[75px] sm:min-w-[90px] flex-1 shrink-0 border-l border-gray-300 p-1 bg-white relative flex items-center justify-center"
           >
             <div className="flex items-center gap-0.5 w-full">
               <input
@@ -466,7 +468,7 @@ function ScoreCell({
   }
 
   return (
-    <div className="min-w-[75px] sm:min-w-[90px] flex-1 shrink-0 border-l border-gray-300 bg-white relative z-10">
+    <div className="snap-start min-w-[75px] sm:min-w-[90px] flex-1 shrink-0 border-l border-gray-300 bg-white relative z-10">
       <input
         inputMode="numeric"
         value={value === null ? "" : value}
@@ -492,7 +494,7 @@ function TotalCell({
 }) {
   return (
     <div
-      className={`min-w-[75px] sm:min-w-[90px] flex-1 shrink-0 border-l border-gray-300 relative z-10 flex min-h-10 items-center justify-center px-1 font-mono tabular-nums ${
+      className={`snap-start min-w-[75px] sm:min-w-[90px] flex-1 shrink-0 border-l border-gray-300 relative z-10 flex min-h-10 items-center justify-center px-1 font-mono tabular-nums ${
         highlight ? "bg-teal-50" : "bg-white"
       }`}
     >
