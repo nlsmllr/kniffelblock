@@ -165,7 +165,7 @@ export function Kniffelblock() {
       */}
       {/* <div className="overflow-auto snap-x snap-mandatory scroll-pl-[130px] sm:scroll-pl-[160px] max-h-[calc(100dvh-140px)] sm:max-h-[80vh] w-full rounded-4xl border-2 border-red-600 bg-white shadow-sm"> */}
 
-      <div className="overflow-auto overscroll-none snap-x snap-mandatory scroll-pl-[130px] sm:scroll-pl-[160px] max-h-[calc(100dvh-140px)] sm:max-h-screen w-full rounded-4xl border-2 border-red-600 bg-white shadow-sm">
+      <div className="overflow-auto overscroll-none snap-x snap-mandatory scroll-pl-[130px] sm:scroll-pl-[160px] max-h-[calc(100dvh-50px)] sm:max-h-screen w-full rounded-4xl border-2 border-red-600 bg-white shadow-sm">
         {/* <div className="flex flex-col w-full min-w-max"> */}
         <div className="flex flex-col w-fit min-w-full">
           <UpperSection
