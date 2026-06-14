@@ -158,14 +158,16 @@ export function Kniffelblock() {
   if (!loaded) return null;
 
   return (
-    <div className="mx-auto w-full sm:p-12 p-5">
+    <div className="mx-auto w-full sm:p-12 p-4">
       <Header onAdd={addPlayer} onReset={reset} />
 
       {/* Container: 
           - snap-x snap-mandatory für den harten horizontalen Stop
           - scroll-pl-[130px] sm:scroll-pl-[160px] damit es nicht unter dem fixierten Header einrastet 
       */}
-      <div className="overflow-auto snap-x snap-mandatory scroll-pl-[130px] sm:scroll-pl-[160px] max-h-[calc(100dvh-140px)] sm:max-h-[80vh] w-full rounded-4xl border-2 border-rose-600 bg-white shadow-sm">
+      {/* <div className="overflow-auto snap-x snap-mandatory scroll-pl-[130px] sm:scroll-pl-[160px] max-h-[calc(100dvh-140px)] sm:max-h-[80vh] w-full rounded-4xl border-2 border-rose-600 bg-white shadow-sm"> */}
+
+      <div className="overflow-auto overscroll-none snap-x snap-mandatory scroll-pl-[130px] sm:scroll-pl-[160px] max-h-[calc(100dvh-140px)] sm:max-h-[80vh] w-full rounded-4xl border-2 border-rose-600 bg-white shadow-sm">
         {/* <div className="flex flex-col w-full min-w-max"> */}
         <div className="flex flex-col w-fit min-w-full">
           <UpperSection
@@ -195,7 +197,7 @@ function Header({
   onReset: () => void;
 }) {
   return (
-    <div className="mb-3 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
+    <div className="mb-3 flex gap-4 flex-row items-end justify-between">
       <div>
         <h1 className="font-mono text-3xl font-bold tracking-tight text-teal-700 sm:text-4xl">
           KNIFFEL<span className="text-rose-600">BLOCK</span>
