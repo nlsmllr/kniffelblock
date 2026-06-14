@@ -160,7 +160,12 @@ export function Kniffelblock() {
   return (
     <div className="mx-auto w-full sm:p-12 p-3">
       <Header onAdd={addPlayer} onReset={reset} />
-      <div className="overflow-auto snap-x snap-mandatory max-h-[calc(100dvh-140px)] sm:max-h-[80vh] w-full rounded-xl border-2 border-rose-600 bg-white shadow-sm">
+
+      {/* Container: 
+          - snap-x snap-mandatory für den harten horizontalen Stop
+          - scroll-pl-[130px] sm:scroll-pl-[160px] damit es nicht unter dem fixierten Header einrastet 
+      */}
+      <div className="overflow-auto snap-x snap-mandatory scroll-pl-[130px] sm:scroll-pl-[160px] max-h-[calc(100dvh-140px)] sm:max-h-[80vh] w-full rounded-4xl border-2 border-rose-600 bg-white shadow-sm">
         {/* <div className="flex flex-col w-full min-w-max"> */}
         <div className="flex flex-col w-fit min-w-full">
           <UpperSection
@@ -203,7 +208,6 @@ function Header({
           className="inline-flex items-center gap-1.5 rounded-lg border border-teal-300 bg-white px-3 py-2 text-sm font-medium text-teal-700 transition-colors hover:bg-teal-700 hover:text-white focus:outline-none focus:ring-2 focus:ring-teal-700 focus:ring-offset-2"
         >
           <Plus className="size-4" aria-hidden="true" />
-          Spieler
         </button>
         <button
           type="button"
@@ -211,7 +215,6 @@ function Header({
           className="inline-flex items-center gap-1.5 rounded-lg border border-rose-300 bg-white px-3 py-2 text-sm font-medium text-rose-600 transition-colors hover:bg-rose-600 hover:text-white focus:outline-none focus:ring-2 focus:ring-rose-600 focus:ring-offset-2"
         >
           <RotateCcw className="size-4" aria-hidden="true" />
-          Zurücksetzen
         </button>
       </div>
     </div>
