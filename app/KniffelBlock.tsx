@@ -312,7 +312,10 @@ function UpperSection({
         ))}
       </Row>
       <Row>
-        <LabelCell className="text-teal-700">Bonus ab 63</LabelCell>
+        <LabelCell className="text-teal-700 gap-1.75">
+          <p>{"Bonus"}</p>
+          <p className="text-teal-700/50">{"ab 63"}</p>
+        </LabelCell>
         {players.map((p) => (
           <TotalCell
             key={p.id}
