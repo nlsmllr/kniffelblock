@@ -106,9 +106,7 @@ export function Kniffelblock() {
           }));
         }
       }
-    } catch {
-      // ignore corrupt storage
-    }
+    } catch {}
 
     return [makePlayer()];
   });
