@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Dice1,
   Dice2,
@@ -8,10 +8,8 @@ import {
   Dice4,
   Dice5,
   Dice6,
-  Heart,
   Plus,
   RotateCcw,
-  Trophy,
   X,
 } from "lucide-react";
 
@@ -165,9 +163,9 @@ export function Kniffelblock() {
           - snap-x snap-mandatory für den harten horizontalen Stop
           - scroll-pl-[130px] sm:scroll-pl-[160px] damit es nicht unter dem fixierten Header einrastet 
       */}
-      {/* <div className="overflow-auto snap-x snap-mandatory scroll-pl-[130px] sm:scroll-pl-[160px] max-h-[calc(100dvh-140px)] sm:max-h-[80vh] w-full rounded-4xl border-2 border-rose-600 bg-white shadow-sm"> */}
+      {/* <div className="overflow-auto snap-x snap-mandatory scroll-pl-[130px] sm:scroll-pl-[160px] max-h-[calc(100dvh-140px)] sm:max-h-[80vh] w-full rounded-4xl border-2 border-red-600 bg-white shadow-sm"> */}
 
-      <div className="overflow-auto overscroll-none snap-x snap-mandatory scroll-pl-[130px] sm:scroll-pl-[160px] max-h-[calc(100dvh-140px)] sm:max-h-[80vh] w-full rounded-4xl border-2 border-rose-600 bg-white shadow-sm">
+      <div className="overflow-auto overscroll-none snap-x snap-mandatory scroll-pl-[130px] sm:scroll-pl-[160px] max-h-[calc(100dvh)] sm:max-h-[80vh] w-full rounded-4xl border-2 border-red-600 bg-white shadow-sm">
         {/* <div className="flex flex-col w-full min-w-max"> */}
         <div className="flex flex-col w-fit min-w-full">
           <UpperSection
@@ -178,7 +176,7 @@ export function Kniffelblock() {
             canRemove={players.length > 1}
           />
 
-          <div className="h-3 w-full bg-rose-50 border-y border-rose-200" />
+          <div className="h-3 w-full bg-red-50 border-y border-red-200" />
 
           <LowerSection players={players} onScore={setScore} />
         </div>
@@ -200,7 +198,7 @@ function Header({
     <div className="mb-3 flex gap-4 flex-row items-end justify-between">
       <div>
         <h1 className="font-mono text-3xl font-bold tracking-tight text-teal-700 sm:text-4xl">
-          KNIFFEL<span className="text-rose-600">BLOCK</span>
+          KNIFFEL<span className="text-red-600">BLOCK</span>
         </h1>
       </div>
       <div className="flex gap-2">
@@ -214,7 +212,7 @@ function Header({
         <button
           type="button"
           onClick={onReset}
-          className="inline-flex items-center gap-1.5 rounded-lg border border-rose-300 bg-white px-3 py-2 text-sm font-medium text-rose-600 transition-colors hover:bg-rose-600 hover:text-white focus:outline-none focus:ring-2 focus:ring-rose-600 focus:ring-offset-2"
+          className="inline-flex items-center gap-1.5 rounded-lg border border-red-300 bg-white px-3 py-2 text-sm font-medium text-red-600 transition-colors hover:bg-red-600 hover:text-white focus:outline-none focus:ring-2 focus:ring-red-600 focus:ring-offset-2"
         >
           <RotateCcw className="size-4" aria-hidden="true" />
         </button>
@@ -256,7 +254,7 @@ function UpperSection({
 }) {
   return (
     <section className="flex flex-col w-full">
-      <Row className="sticky top-0 z-30 bg-white shadow-sm border-b-2 border-rose-200">
+      <Row className="sticky top-0 z-30 bg-white shadow-sm border-b-2 border-red-200">
         <LabelCell className="text-gray-900" isHeader />
         {players.map((p) => (
           <div
@@ -277,7 +275,7 @@ function UpperSection({
                   type="button"
                   aria-label={`${p.name} entfernen`}
                   onClick={() => onRemove(p.id)}
-                  className="shrink-0 rounded p-0.5 text-gray-400 transition-colors hover:bg-rose-600 hover:text-white"
+                  className="shrink-0 rounded p-0.5 text-gray-400 transition-colors hover:bg-red-600 hover:text-white"
                 >
                   <X className="size-3.5" aria-hidden="true" />
                 </button>
@@ -296,7 +294,7 @@ function UpperSection({
                 {Array.from({ length: 5 }).map((_, i) => (
                   <Die
                     key={i}
-                    className="size-4 text-rose-600 sm:size-5"
+                    className="size-4 text-red-600 sm:size-5"
                     aria-hidden="true"
                   />
                 ))}
@@ -332,7 +330,7 @@ function UpperSection({
         ))}
       </Row>
       <Row last>
-        <LabelCell className="text-teal-700">Gesamt Oben →</LabelCell>
+        <LabelCell className="text-teal-700">Gesamt Oben</LabelCell>
         {players.map((p) => (
           <TotalCell key={p.id} value={upperTotal(p.scores)} strong />
         ))}
@@ -354,17 +352,9 @@ function LowerSection({
     <section className="flex flex-col w-full">
       {LOWER.map((r) => (
         <Row key={r.key}>
-          <LabelCell className="text-rose-600">
+          <LabelCell className="text-red-600">
             {"hearts" in r && r.hearts ? (
-              <div className="flex items-center gap-0.5">
-                {Array.from({ length: 5 }).map((_, i) => (
-                  <Heart
-                    key={i}
-                    className="size-4 fill-teal-600 text-teal-600 sm:size-5"
-                    aria-hidden="true"
-                  />
-                ))}
-              </div>
+              <div className="flex items-center gap-0.5">Kniffel</div>
             ) : (
               r.label
             )}
@@ -382,19 +372,19 @@ function LowerSection({
       ))}
 
       <Row>
-        <LabelCell className="text-teal-700">Gesamt Unten →</LabelCell>
+        <LabelCell className="text-teal-700">Gesamt Unten</LabelCell>
         {players.map((p) => (
           <TotalCell key={p.id} value={lowerSum(p.scores)} />
         ))}
       </Row>
       <Row>
-        <LabelCell className="text-teal-700">Gesamt Oben →</LabelCell>
+        <LabelCell className="text-teal-700">Gesamt Oben</LabelCell>
         {players.map((p) => (
           <TotalCell key={p.id} value={upperTotal(p.scores)} />
         ))}
       </Row>
       <Row last>
-        <LabelCell className="text-teal-700">Endsumme →</LabelCell>
+        <LabelCell className="text-teal-700">Endsumme</LabelCell>
         {players.map((p) => (
           <TotalCell key={p.id} value={grandTotal(p.scores)} strong />
         ))}
@@ -416,7 +406,7 @@ function Row({
 }) {
   return (
     <div
-      className={`flex w-full ${last ? "" : "border-b border-rose-200"} ${className}`}
+      className={`flex w-full ${last ? "" : "border-b border-red-200"} ${className}`}
     >
       {children}
     </div>
@@ -447,7 +437,6 @@ function ScoreCell({
   value,
   onChange,
   max,
-  step,
   fixed,
 }: {
   value: number | null;
@@ -470,7 +459,6 @@ function ScoreCell({
   }
 
   return (
-    // <div className="snap-start flex-1 shrink-0 border-l border-gray-300 bg-white relative z-10">
     <div className="snap-start flex-1 shrink-0 min-w-[100px] sm:min-w-[120px] border-l border-gray-300 bg-white relative z-10">
       <input
         inputMode="numeric"
@@ -479,9 +467,15 @@ function ScoreCell({
         placeholder={fixed ? String(fixed) : ""}
         className={`h-full min-h-10 w-full bg-transparent text-center font-mono text-sm tabular-nums outline-none transition-colors focus:bg-gray-100 ${
           isFilled ? "font-semibold text-teal-700" : "text-gray-900"
-        } ${isStruck ? "text-gray-400 line-through" : ""}`}
+        } ${isStruck ? "font-extrabold relative z-10" : "relative z-10"}`}
         aria-label="Punkte"
       />
+
+      {isStruck && (
+        <div className="absolute inset-0 flex items-center justify-center z-0">
+          <span className="font-normal tracking-tighter">{"/////"}</span>
+        </div>
+      )}
     </div>
   );
 }
@@ -509,7 +503,7 @@ function TotalCell({
       <span
         className={
           strong
-            ? "text-base font-bold text-rose-600"
+            ? "text-base font-bold text-red-600"
             : "text-sm font-semibold text-teal-700"
         }
       >
