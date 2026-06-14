@@ -267,9 +267,9 @@ function UpperSection({
                   type="button"
                   aria-label={`${p.name || `Spieler ${index + 1}`} entfernen`}
                   onClick={() => onRemove(p.id)}
-                  className="shrink-0 rounded p-0.5 text-gray-400 transition-colors hover:bg-red-600 hover:text-white"
+                  className="shrink-0 mr-2 rounded p-0.5 text-gray-400 transition-colors hover:bg-red-600 hover:text-white"
                 >
-                  <X className="size-3.5 mr-2" aria-hidden="true" />
+                  <X className="size-3.5" aria-hidden="true" />
                 </button>
               )}
             </div>
