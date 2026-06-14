@@ -158,7 +158,7 @@ export function Kniffelblock() {
   if (!loaded) return null;
 
   return (
-    <div className="mx-auto w-full sm:p-12 p-3">
+    <div className="mx-auto w-full sm:p-12 p-5">
       <Header onAdd={addPlayer} onReset={reset} />
 
       {/* Container: 
@@ -195,7 +195,7 @@ function Header({
   onReset: () => void;
 }) {
   return (
-    <div className="mb-6 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
+    <div className="mb-3 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
       <div>
         <h1 className="font-mono text-3xl font-bold tracking-tight text-teal-700 sm:text-4xl">
           KNIFFEL<span className="text-rose-600">BLOCK</span>
