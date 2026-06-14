@@ -79,10 +79,10 @@ function emptyScores(): ScoreMap {
   return Object.fromEntries(ALL_KEYS.map((k) => [k, null]));
 }
 
-function makePlayer(index: number): Player {
+function makePlayer(): Player {
   return {
     id: crypto.randomUUID(),
-    name: `Spieler ${index + 1}`,
+    name: ``,
     scores: emptyScores(),
   };
 }
@@ -92,7 +92,7 @@ const STORAGE_KEY = "kniffelblock-storage";
 export function Kniffelblock() {
   const [players, setPlayers] = useState<Player[]>(() => {
     if (typeof window === "undefined") {
-      return [makePlayer(0), makePlayer(1)];
+      return [makePlayer(), makePlayer()];
     }
 
     try {
@@ -110,7 +110,7 @@ export function Kniffelblock() {
       // ignore corrupt storage
     }
 
-    return [makePlayer(0), makePlayer(1)];
+    return [makePlayer(), makePlayer()];
   });
 
   const [loaded, setLoaded] = useState(false);
@@ -140,7 +140,7 @@ export function Kniffelblock() {
   }
 
   function addPlayer() {
-    setPlayers((prev) => [...prev, makePlayer(prev.length)]);
+    setPlayers((prev) => [...prev, makePlayer()]);
   }
 
   function removePlayer(playerId: string) {
@@ -256,28 +256,27 @@ function UpperSection({
     <section className="flex flex-col w-full">
       <Row className="sticky top-0 z-30 bg-white shadow-sm border-b-2 border-red-200">
         <LabelCell className="text-gray-900" isHeader />
-        {players.map((p) => (
+        {players.map((p, index) => (
           <div
             key={p.id}
-            // snap-start hinzugefügt
-            // className="snap-start flex-1 shrink-0 border-l border-gray-300 p-1 bg-white relative flex items-center justify-center"
             className="snap-start flex-1 shrink-0 min-w-[100px] sm:min-w-[120px] border-l border-gray-300 p-1 bg-white relative flex items-center justify-center"
           >
             <div className="flex items-center gap-0.5 w-full">
               <input
                 aria-label="Spielername"
                 value={p.name}
+                placeholder={`P${index + 1}`}
                 onChange={(e) => onName(p.id, e.target.value)}
-                className="w-full min-w-0 rounded bg-transparent px-1 py-1 text-center text-sm font-semibold text-teal-700 outline-none focus:bg-gray-100"
+                className="w-full min-w-0 rounded bg-transparent px-1 py-1 text-center text-sm font-semibold text-teal-700 outline-none focus:bg-gray-100 placeholder:text-teal-700/50"
               />
               {canRemove && (
                 <button
                   type="button"
-                  aria-label={`${p.name} entfernen`}
+                  aria-label={`${p.name || `Spieler ${index + 1}`} entfernen`}
                   onClick={() => onRemove(p.id)}
                   className="shrink-0 rounded p-0.5 text-gray-400 transition-colors hover:bg-red-600 hover:text-white"
                 >
-                  <X className="size-3.5" aria-hidden="true" />
+                  <X className="size-3.5 mr-2" aria-hidden="true" />
                 </button>
               )}
             </div>
@@ -290,11 +289,11 @@ function UpperSection({
         return (
           <Row key={r.key}>
             <LabelCell>
-              <div className="flex items-center gap-0.5">
+              <div className="flex items-center gap-0.5 sm:gap-1.5">
                 {Array.from({ length: 5 }).map((_, i) => (
                   <Die
                     key={i}
-                    className="size-4 text-red-600 sm:size-5"
+                    className="text-red-600 size-5"
                     aria-hidden="true"
                   />
                 ))}
@@ -384,7 +383,7 @@ function LowerSection({
         ))}
       </Row>
       <Row last>
-        <LabelCell className="text-teal-700">Endsumme</LabelCell>
+        <LabelCell className="text-teal-700 mb-1">Endsumme</LabelCell>
         {players.map((p) => (
           <TotalCell key={p.id} value={grandTotal(p.scores)} strong />
         ))}
