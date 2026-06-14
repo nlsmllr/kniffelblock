@@ -158,9 +158,11 @@ export function Kniffelblock() {
   if (!loaded) return null;
 
   return (
-    <div className="mx-auto w-full p-12">
+    <div className="mx-auto w-full max-w-5xl sm:p-12 p-3">
       <Header onAdd={addPlayer} onReset={reset} />
-      <div className="overflow-auto max-h-[80vh] w-full rounded-xl border-2 border-rose-600 bg-white shadow-sm">
+
+      {/* Container: Dynamische Viewport-Höhe (dvh) für Mobile, 80vh für Desktop */}
+      <div className="overflow-auto max-h-[calc(100dvh-140px)] sm:max-h-[80vh] w-full rounded-xl border-2 border-rose-600 bg-white shadow-sm">
         <div className="flex flex-col w-full min-w-max">
           <UpperSection
             players={players}
