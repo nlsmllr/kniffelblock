@@ -158,14 +158,7 @@ export function Kniffelblock() {
   return (
     <div className="mx-auto w-full sm:p-12 p-4">
       <Header onAdd={addPlayer} onReset={reset} />
-
-      {/* Container: 
-          - snap-x snap-mandatory für den harten horizontalen Stop
-          - scroll-pl-[130px] sm:scroll-pl-[160px] damit es nicht unter dem fixierten Header einrastet 
-      */}
-      {/* <div className="overflow-auto snap-x snap-mandatory scroll-pl-[130px] sm:scroll-pl-[160px] max-h-[calc(100dvh-140px)] sm:max-h-[80vh] w-full rounded-4xl border-2 border-red-600 bg-white shadow-sm"> */}
-
-      <div className="overflow-auto overscroll-none snap-x snap-mandatory scroll-pl-[130px] sm:scroll-pl-[160px] max-h-[calc(100dvh-80px)] sm:max-h-screen w-full rounded-t-xl rounded-b-4xl border-2 border-red-600 bg-white shadow-sm">
+      <div className="overflow-auto overscroll-none snap-x snap-mandatory scroll-pl-[130px] sm:scroll-pl-[160px] max-h-[calc(100dvh-80px)] sm:max-h-screen w-full rounded-t-xl rounded-b-4xl border-2 border-red-600 bg-white">
         {/* <div className="flex flex-col w-full min-w-max"> */}
         <div className="flex flex-col w-fit min-w-full">
           <UpperSection
@@ -254,7 +247,7 @@ function UpperSection({
 }) {
   return (
     <section className="flex flex-col w-full">
-      <Row className="sticky top-0 z-30 bg-white shadow-sm border-b-2 border-red-200">
+      <Row className="sticky top-0 z-30 bg-white border-b-2 border-red-200">
         <LabelCell className="text-gray-900" isHeader />
         {players.map((p, index) => (
           <div
@@ -425,7 +418,7 @@ function LabelCell({
     <div
       className={`w-[130px] sm:w-[160px] shrink-0 sticky left-0 ${
         isHeader ? "z-40" : "z-20"
-      } flex items-center border-r border-gray-300 px-2 py-2 text-sm font-semibold sm:px-3 bg-white shadow-[4px_0_6px_-4px_rgba(0,0,0,0.1)] ${className}`}
+      } flex items-center border-r border-gray-300 px-2 py-2 text-sm font-semibold sm:px-3 bg-white ${className}`}
     >
       {children}
     </div>
