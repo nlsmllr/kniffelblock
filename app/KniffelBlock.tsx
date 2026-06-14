@@ -110,7 +110,7 @@ export function Kniffelblock() {
       // ignore corrupt storage
     }
 
-    return [makePlayer(), makePlayer()];
+    return [makePlayer()];
   });
 
   const [loaded, setLoaded] = useState(false);
