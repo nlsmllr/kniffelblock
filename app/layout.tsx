@@ -15,6 +15,23 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: "Kniffelblock",
   description: "Kniffelblock",
+  icons: {
+    icon: [
+      {
+        url: "/apple-icon.png",
+      },
+      {
+        url: "/apple-icon.png",
+        type: "image/svg+xml",
+      },
+    ],
+    apple: "/apple-icon.png",
+  },
+  appleWebApp: {
+    capable: true,
+    statusBarStyle: "default",
+    title: "Kniffelblock",
+  },
 };
 
 export default function RootLayout({
