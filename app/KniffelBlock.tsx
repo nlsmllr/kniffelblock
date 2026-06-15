@@ -11,6 +11,7 @@ import {
   Plus,
   RotateCcw,
   Crown,
+  Trash2,
   X,
 } from "lucide-react";
 
@@ -171,11 +172,15 @@ export function Kniffelblock() {
     setPlayers((prev) => prev.map((p) => ({ ...p, scores: emptyScores() })));
   }
 
+  function hardReset() {
+    setPlayers([makePlayer()]);
+  }
+
   if (!loaded) return null;
 
   return (
     <div className="mx-auto w-full sm:p-12 p-4">
-      <Header onAdd={addPlayer} onReset={reset} />
+      <Header onAdd={addPlayer} onReset={reset} onHardReset={hardReset} />
       <div className="overflow-auto overscroll-none snap-x snap-mandatory scroll-pl-[130px] sm:scroll-pl-[160px] max-h-[calc(100dvh-80px)] sm:max-h-screen w-full rounded-t-xl rounded-b-4xl border-2 border-red-600 bg-white">
         {/* <div className="flex flex-col w-full min-w-max"> */}
         <div className="flex flex-col w-fit min-w-full">
@@ -197,13 +202,14 @@ export function Kniffelblock() {
 }
 
 /* ---------- header ---------- */
-
 function Header({
   onAdd,
   onReset,
+  onHardReset, // <-- Neue Prop hinzugefügt
 }: {
   onAdd: () => void;
   onReset: () => void;
+  onHardReset: () => void; // <-- Typisierung hinzugefügt
 }) {
   return (
     <div className="mb-3 flex gap-4 flex-row items-end justify-between">
@@ -216,6 +222,7 @@ function Header({
         <button
           type="button"
           onClick={onAdd}
+          title="Spieler hinzufügen"
           className="inline-flex items-center gap-1.5 rounded-lg border border-teal-300 bg-white px-3 py-2 text-sm font-medium text-teal-700 transition-colors hover:bg-teal-700 hover:text-white focus:outline-none focus:ring-2 focus:ring-teal-700 focus:ring-offset-2"
         >
           <Plus className="size-4" aria-hidden="true" />
@@ -223,9 +230,19 @@ function Header({
         <button
           type="button"
           onClick={onReset}
-          className="inline-flex items-center gap-1.5 rounded-lg border border-red-300 bg-white px-3 py-2 text-sm font-medium text-red-600 transition-colors hover:bg-red-600 hover:text-white focus:outline-none focus:ring-2 focus:ring-red-600 focus:ring-offset-2"
+          title="Punkte zurücksetzen"
+          className="inline-flex items-center gap-1.5 rounded-lg border border-amber-400 bg-white px-3 py-2 text-sm font-medium text-amber-500 transition-colors hover:bg-amber-600 hover:text-white focus:outline-none focus:ring-2 focus:ring-amber-600 focus:ring-offset-2"
         >
           <RotateCcw className="size-4" aria-hidden="true" />
+        </button>
+        {/* --- NEUER BUTTON --- */}
+        <button
+          type="button"
+          onClick={onHardReset}
+          title="Alles löschen (Neustart)"
+          className="inline-flex items-center gap-1.5 rounded-lg border border-red-300 bg-white px-3 py-2 text-sm font-medium text-red-600 transition-colors hover:bg-red-600 hover:text-white focus:outline-none focus:ring-2 focus:ring-red-600 focus:ring-offset-2"
+        >
+          <Trash2 className="size-4" aria-hidden="true" />
         </button>
       </div>
     </div>
