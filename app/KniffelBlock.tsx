@@ -173,7 +173,9 @@ export function Kniffelblock() {
   }
 
   function hardReset() {
-    setPlayers([makePlayer()]);
+    if (window.confirm("Willst du wirklich alles löschen?")) {
+      setPlayers([makePlayer()]);
+    }
   }
 
   if (!loaded) return null;
