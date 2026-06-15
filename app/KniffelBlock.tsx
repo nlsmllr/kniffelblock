@@ -214,7 +214,7 @@ function Header({
   onHardReset: () => void;
 }) {
   return (
-    <div className="mb-3 flex gap-4 flex-row items-end justify-between">
+    <div className="mb-3 flex gap-4 flex-row items-center justify-between">
       <div>
         <h1 className="font-mono text-3xl font-bold tracking-tight text-teal-700 sm:text-4xl">
           KNIFFEL<span className="text-red-600">IG</span>
