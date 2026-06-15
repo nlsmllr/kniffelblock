@@ -10,6 +10,7 @@ import {
   Dice6,
   Plus,
   RotateCcw,
+  Crown,
   X,
 } from "lucide-react";
 
@@ -23,14 +24,33 @@ type Player = {
 
 const DICE = [Dice1, Dice2, Dice3, Dice4, Dice5, Dice6];
 
-// Upper section rows: key, label, the die face (1-6)
 const UPPER = [
-  { key: "ones", label: "Nur Einsen zählen", face: 1, max: 5 },
-  { key: "twos", label: "Nur Zweien zählen", face: 2, max: 10 },
-  { key: "threes", label: "Nur Dreien zählen", face: 3, max: 15 },
-  { key: "fours", label: "Nur Vieren zählen", face: 4, max: 20 },
-  { key: "fives", label: "Nur Fünfen zählen", face: 5, max: 25 },
-  { key: "sixes", label: "Nur Sechsen zählen", face: 6, max: 30 },
+  { key: "ones", label: "Nur Einsen zählen", face: 1, steps: [1, 2, 3, 4, 5] },
+  { key: "twos", label: "Nur Zweien zählen", face: 2, steps: [2, 4, 6, 8, 10] },
+  {
+    key: "threes",
+    label: "Nur Dreien zählen",
+    face: 3,
+    steps: [3, 6, 9, 12, 15],
+  },
+  {
+    key: "fours",
+    label: "Nur Vieren zählen",
+    face: 4,
+    steps: [4, 8, 12, 16, 20],
+  },
+  {
+    key: "fives",
+    label: "Nur Fünfen zählen",
+    face: 5,
+    steps: [5, 10, 15, 20, 25],
+  },
+  {
+    key: "sixes",
+    label: "Nur Sechsen zählen",
+    face: 6,
+    steps: [6, 12, 18, 24, 30],
+  },
 ] as const;
 
 // Lower section rows: key, label, the hint shown in the small middle cell
@@ -243,36 +263,59 @@ function UpperSection({
   onRemove: (id: string) => void;
   canRemove: boolean;
 }) {
+  // Ermittle die aktuelle Höchstpunktzahl (Endsumme) aller Spieler
+  const highestScore = Math.max(...players.map((p) => grandTotal(p.scores)));
+
   return (
     <section className="flex flex-col w-full">
       <Row className="sticky top-0 z-30 bg-white border-b-2 border-red-200">
         <LabelCell className="text-gray-900" isHeader />
-        {players.map((p, index) => (
-          <div
-            key={p.id}
-            className="snap-start flex-1 shrink-0 min-w-[120px] border-l border-gray-300 p-1 bg-white relative flex items-center justify-center"
-          >
-            <div className="flex items-center gap-0.5 w-full">
-              <input
-                aria-label="Spielername"
-                value={p.name}
-                placeholder={`P${index + 1}`}
-                onChange={(e) => onName(p.id, e.target.value)}
-                className="w-full min-w-0 rounded bg-transparent px-1 py-1 text-center text-sm font-semibold text-teal-700 outline-none focus:bg-gray-100 placeholder:text-teal-700/50"
-              />
+        {players.map((p, index) => {
+          // Spieler bekommt eine Krone, wenn er die Höchstpunktzahl hat und diese > 0 ist
+          const isLeader =
+            highestScore > 0 && grandTotal(p.scores) === highestScore;
+
+          return (
+            <div
+              key={p.id}
+              className="snap-start flex-1 shrink-0 min-w-[120px] border-l border-gray-300 p-1 bg-white relative flex items-center justify-center min-h-[40px]"
+            >
+              {/* Container für Name & Krone (mit px-6 Padding, damit langer Text nicht unter das X rutscht) */}
+              <div className="flex items-center justify-center w-full px-6">
+                {isLeader && (
+                  <Crown
+                    className="size-4 shrink-0 text-amber-400 mr-1"
+                    fill="currentColor"
+                    aria-label="Führend"
+                  />
+                )}
+
+                <input
+                  aria-label="Spielername"
+                  value={p.name}
+                  placeholder={`P${index + 1}`}
+                  onChange={(e) => onName(p.id, e.target.value)}
+                  className="w-full min-w-0 rounded bg-transparent py-1 text-center text-sm font-semibold text-teal-700 outline-none focus:bg-gray-100 placeholder:text-teal-700/50"
+                />
+
+                {/* Unsichtbares Gegengewicht zur Krone, damit das Input-Feld exakt zentriert bleibt */}
+                {isLeader && <div className="size-4 shrink-0 ml-1" />}
+              </div>
+
+              {/* Absolute Positionierung löst das X aus dem zentrierten Layout */}
               {canRemove && (
                 <button
                   type="button"
                   aria-label={`${p.name || `Spieler ${index + 1}`} entfernen`}
                   onClick={() => onRemove(p.id)}
-                  className="shrink-0 mr-2 rounded p-0.5 text-gray-400 transition-colors hover:bg-red-600 hover:text-white"
+                  className="absolute right-1 top-1/2 -translate-y-1/2 rounded p-0.5 text-gray-400 transition-colors hover:bg-red-600 hover:text-white"
                 >
                   <X className="size-3.5" aria-hidden="true" />
                 </button>
               )}
             </div>
-          </div>
-        ))}
+          );
+        })}
       </Row>
 
       {UPPER.map((r) => {
@@ -294,8 +337,7 @@ function UpperSection({
               <ScoreCell
                 key={p.id}
                 value={p.scores[r.key]}
-                max={r.max}
-                step={r.face}
+                steps={r.steps}
                 onChange={(v) => onScore(p.id, r.key, v)}
               />
             ))}
@@ -430,12 +472,13 @@ function ScoreCell({
   value,
   onChange,
   max,
+  steps,
   fixed,
 }: {
   value: number | null;
   onChange: (v: number | null) => void;
   max?: number;
-  step?: number;
+  steps?: readonly number[];
   fixed?: number;
 }) {
   const isFilled = value !== null && value > 0;
@@ -447,8 +490,26 @@ function ScoreCell({
     let n = Math.floor(Number(raw));
     if (Number.isNaN(n)) return;
     if (n < 0) n = 0;
-    if (max !== undefined && n > max) n = max;
+
+    // Nimm den maximalen Wert aus den steps, falls vorhanden
+    const currentMax = steps ? steps[steps.length - 1] : max;
+    if (currentMax !== undefined && n > currentMax) n = currentMax;
+
     onChange(n);
+  }
+
+  function handleBlur() {
+    // Wenn es einen Wert gibt und steps definiert sind, snappe zum nächsten gültigen Wert
+    if (value !== null && value !== 0 && steps) {
+      if (!steps.includes(value)) {
+        // 0 bleibt immer eine gültige Option (Streichergebnis)
+        const validOptions = [0, ...steps];
+        const closest = validOptions.reduce((prev, curr) =>
+          Math.abs(curr - value) < Math.abs(prev - value) ? curr : prev,
+        );
+        onChange(closest);
+      }
+    }
   }
 
   return (
@@ -457,6 +518,7 @@ function ScoreCell({
         inputMode="numeric"
         value={value === null ? "" : value}
         onChange={handle}
+        onBlur={handleBlur}
         placeholder={fixed ? String(fixed) : ""}
         className={`h-full min-h-10 w-full bg-transparent text-center font-mono text-sm tabular-nums outline-none transition-colors focus:bg-gray-100 ${
           isFilled ? "font-semibold text-teal-700" : "text-gray-900"
@@ -465,8 +527,10 @@ function ScoreCell({
       />
 
       {isStruck && (
-        <div className="absolute inset-0 flex items-center justify-center z-0">
-          <span className="font-normal tracking-tighter">{"/////"}</span>
+        <div className="absolute inset-0 flex items-center justify-center z-0 pointer-events-none">
+          <span className="font-normal tracking-tighter text-gray-900">
+            {"/////"}
+          </span>
         </div>
       )}
     </div>
@@ -489,7 +553,7 @@ function TotalCell({
     //   }`}
     // >
     <div
-      className={`snap-start flex-1 shrink-0 min-w-[100px] sm:min-w-[120px] border-l border-gray-300 relative z-10 flex min-h-10 items-center justify-center px-1 font-mono tabular-nums ${
+      className={`snap-start flex-1 shrink-0 min-w-[170px] border-l border-gray-300 relative z-10 flex min-h-10 items-center justify-center px-1 font-mono tabular-nums ${
         highlight ? "bg-teal-50" : "bg-white"
       }`}
     >
