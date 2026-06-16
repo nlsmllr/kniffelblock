@@ -185,7 +185,7 @@ export function Kniffelblock() {
   return (
     <div className="mx-auto w-full p-4">
       <Header onAdd={addPlayer} onReset={reset} onHardReset={hardReset} />
-      <div className="overflow-auto overscroll-none snap-x snap-mandatory scroll-pl-[130px] sm:scroll-pl-[160px] max-h-[calc(100dvh-80px)] sm:max-h-screen w-full rounded-t-xl rounded-b-4xl border-2 border-emerald-700 bg-orange-50">
+      <div className="overflow-auto overscroll-none snap-x snap-mandatory scroll-pl-[130px] sm:scroll-pl-[160px] max-h-[calc(100dvh-80px)] sm:max-h-screen w-full rounded-t-xl rounded-b-4xl border-2 border-sky-700 bg-orange-50">
         <div className="flex flex-col w-fit min-w-full">
           <UpperSection
             players={players}
@@ -194,7 +194,7 @@ export function Kniffelblock() {
             onRemove={removePlayer}
             canRemove={players.length > 1}
           />
-          <div className="h-3 w-full bg-emerald-50 border-y border-emerald-200" />
+          <div className="h-3 w-full bg-sky-50 border-y border-sky-200" />
           <LowerSection players={players} onScore={setScore} />
         </div>
       </div>
@@ -216,7 +216,7 @@ function Header({
     <div className="mb-3 flex gap-4 flex-row items-center justify-between">
       <div>
         <h1 className="font-mono text-2xl font-bold tracking-tight text-slate-800 sm:text-4xl">
-          KNIFFELB<span className="text-emerald-700">L</span>OCK
+          KNIFFELB<span className="text-sky-700">L</span>OCK
         </h1>
       </div>
       <div className="flex gap-2">
@@ -240,7 +240,7 @@ function Header({
           type="button"
           onClick={onHardReset}
           title="Alles löschen (Neustart)"
-          className="inline-flex items-center gap-1.5 rounded-lg border border-emerald-300 bg-orange-50 px-3 py-2 text-sm font-medium text-emerald-700 transition-colors hover:bg-emerald-700 hover:text-orange-50 focus:outline-none focus:ring-2 focus:ring-emerald-700 focus:ring-offset-2"
+          className="inline-flex items-center gap-1.5 rounded-lg border border-sky-300 bg-orange-50 px-3 py-2 text-sm font-medium text-sky-700 transition-colors hover:bg-sky-700 hover:text-orange-50 focus:outline-none focus:ring-2 focus:ring-sky-700 focus:ring-offset-2"
         >
           <Trash2 className="size-4" aria-hidden="true" />
         </button>
@@ -284,7 +284,7 @@ function UpperSection({
 
   return (
     <section className="flex flex-col w-full">
-      <Row className="sticky top-0 z-30 bg-orange-50 border-b-2 border-emerald-200">
+      <Row className="sticky top-0 z-30 bg-orange-50 border-b-2 border-sky-200">
         <LabelCell className="text-slate-900" isHeader />
         {players.map((p, index) => {
           const isLeader =
@@ -298,7 +298,7 @@ function UpperSection({
               <div className="flex items-center justify-center w-full px-6">
                 {isLeader && (
                   <Crown
-                    className="size-4 shrink-0 text-emerald-600 mr-1"
+                    className="size-4 shrink-0 text-sky-600 mr-1"
                     fill="currentColor"
                     aria-label="Führend"
                   />
@@ -320,7 +320,7 @@ function UpperSection({
                   type="button"
                   aria-label={`${p.name || `Spieler ${index + 1}`} entfernen`}
                   onClick={() => onRemove(p.id)}
-                  className="absolute right-1 top-1/2 -translate-y-1/2 rounded p-0.5 text-slate-400 transition-colors hover:bg-emerald-700 hover:text-orange-50"
+                  className="absolute right-1 top-1/2 -translate-y-1/2 rounded p-0.5 text-slate-400 transition-colors hover:bg-sky-700 hover:text-orange-50"
                 >
                   <X className="size-3.5" aria-hidden="true" />
                 </button>
@@ -339,7 +339,7 @@ function UpperSection({
                 {Array.from({ length: 5 }).map((_, i) => (
                   <Die
                     key={i}
-                    className="text-emerald-700 size-5"
+                    className="text-sky-700 size-5"
                     aria-hidden="true"
                   />
                 ))}
@@ -399,7 +399,7 @@ function LowerSection({
     <section className="flex flex-col w-full">
       {LOWER.map((r) => (
         <Row key={r.key}>
-          <LabelCell className="text-emerald-700">
+          <LabelCell className="text-sky-700">
             {"hearts" in r && r.hearts ? (
               <div className="flex items-center gap-0.5">Kniffel</div>
             ) : (
@@ -453,7 +453,7 @@ function Row({
 }) {
   return (
     <div
-      className={`flex w-full ${last ? "" : "border-b border-emerald-200"} ${className}`}
+      className={`flex w-full ${last ? "" : "border-b border-sky-200"} ${className}`}
     >
       {children}
     </div>
@@ -564,7 +564,7 @@ function TotalCell({
       <span
         className={
           strong
-            ? "text-base font-bold text-emerald-700"
+            ? "text-base font-bold text-sky-700"
             : "text-sm font-semibold text-slate-800"
         }
       >
