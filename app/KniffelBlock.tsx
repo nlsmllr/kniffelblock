@@ -215,7 +215,7 @@ function Header({
   return (
     <div className="mb-3 flex gap-4 flex-row items-center justify-between">
       <div>
-        <h1 className="font-mono text-2xl font-bold tracking-tight text-slate-800 sm:text-4xl">
+        <h1 className="font-mono text-2xl font-bold tracking-tight text-amber-800 sm:text-4xl">
           KNIFFELB<span className="text-sky-700">L</span>OCK
         </h1>
       </div>
@@ -224,7 +224,7 @@ function Header({
           type="button"
           onClick={onAdd}
           title="Spieler hinzufügen"
-          className="inline-flex items-center gap-1.5 rounded-lg border border-slate-300 bg-orange-50 px-3 py-2 text-sm font-medium text-slate-800 transition-colors hover:bg-slate-800 hover:text-orange-50 focus:outline-none focus:ring-2 focus:ring-slate-800 focus:ring-offset-2"
+          className="inline-flex items-center gap-1.5 rounded-lg border border-amber-300 bg-orange-50 px-3 py-2 text-sm font-medium text-amber-800 transition-colors hover:bg-amber-800 hover:text-orange-50 focus:outline-none focus:ring-2 focus:ring-amber-800 focus:ring-offset-2"
         >
           <Plus className="size-4" aria-hidden="true" />
         </button>
@@ -232,7 +232,7 @@ function Header({
           type="button"
           onClick={onReset}
           title="Punkte zurücksetzen"
-          className="inline-flex items-center gap-1.5 rounded-lg border border-slate-300 bg-orange-50 px-3 py-2 text-sm font-medium text-slate-800 transition-colors hover:bg-slate-700 hover:text-orange-50 focus:outline-none focus:ring-2 focus:ring-slate-700 focus:ring-offset-2"
+          className="inline-flex items-center gap-1.5 rounded-lg border border-amber-300 bg-orange-50 px-3 py-2 text-sm font-medium text-amber-800 transition-colors hover:bg-amber-700 hover:text-orange-50 focus:outline-none focus:ring-2 focus:ring-amber-700 focus:ring-offset-2"
         >
           <RotateCcw className="size-4" aria-hidden="true" />
         </button>
@@ -285,7 +285,7 @@ function UpperSection({
   return (
     <section className="flex flex-col w-full">
       <Row className="sticky top-0 z-30 bg-orange-50 border-b-2 border-sky-200">
-        <LabelCell className="text-slate-900" isHeader />
+        <LabelCell className="text-amber-900" isHeader />
         {players.map((p, index) => {
           const isLeader =
             highestScore > 0 && grandTotal(p.scores) === highestScore;
@@ -293,7 +293,7 @@ function UpperSection({
           return (
             <div
               key={p.id}
-              className="snap-start flex-1 shrink-0 min-w-[120px] border-l border-slate-300 p-1 bg-orange-50 relative flex items-center justify-center min-h-[40px]"
+              className="snap-start flex-1 shrink-0 min-w-[120px] border-l border-amber-300 p-1 bg-orange-50 relative flex items-center justify-center min-h-[40px]"
             >
               <div className="flex items-center justify-center w-full px-6">
                 {isLeader && (
@@ -309,7 +309,7 @@ function UpperSection({
                   value={p.name}
                   placeholder={`P${index + 1}`}
                   onChange={(e) => onName(p.id, e.target.value)}
-                  className="w-full min-w-0 rounded bg-transparent py-1 text-center text-sm font-semibold text-slate-800 outline-none focus:bg-orange-100 placeholder:text-slate-800/50"
+                  className="w-full min-w-0 rounded bg-transparent py-1 text-center text-sm font-semibold text-amber-800 outline-none focus:bg-orange-100 placeholder:text-amber-800/50"
                 />
 
                 {isLeader && <div className="size-4 shrink-0 ml-1" />}
@@ -320,7 +320,7 @@ function UpperSection({
                   type="button"
                   aria-label={`${p.name || `Spieler ${index + 1}`} entfernen`}
                   onClick={() => onRemove(p.id)}
-                  className="absolute right-1 top-1/2 -translate-y-1/2 rounded p-0.5 text-slate-400 transition-colors hover:bg-sky-700 hover:text-orange-50"
+                  className="absolute right-1 top-1/2 -tranamber-y-1/2 rounded p-0.5 text-amber-400 transition-colors hover:bg-sky-700 hover:text-orange-50"
                 >
                   <X className="size-3.5" aria-hidden="true" />
                 </button>
@@ -358,15 +358,15 @@ function UpperSection({
       })}
 
       <Row>
-        <LabelCell className="text-slate-800">Gesamt</LabelCell>
+        <LabelCell className="text-amber-800">Gesamt</LabelCell>
         {players.map((p) => (
           <TotalCell key={p.id} value={upperSum(p.scores)} />
         ))}
       </Row>
       <Row>
-        <LabelCell className="text-slate-800 gap-1.75">
+        <LabelCell className="text-amber-800 gap-1.75">
           <p>{"Bonus"}</p>
-          <p className="text-slate-800/50">{"ab 63"}</p>
+          <p className="text-amber-800/50">{"ab 63"}</p>
         </LabelCell>
         {players.map((p) => (
           <TotalCell
@@ -377,7 +377,7 @@ function UpperSection({
         ))}
       </Row>
       <Row last>
-        <LabelCell className="text-slate-800">Gesamt Oben</LabelCell>
+        <LabelCell className="text-amber-800">Gesamt Oben</LabelCell>
         {players.map((p) => (
           <TotalCell key={p.id} value={upperTotal(p.scores)} strong />
         ))}
@@ -419,19 +419,19 @@ function LowerSection({
       ))}
 
       <Row>
-        <LabelCell className="text-slate-800">Gesamt Unten</LabelCell>
+        <LabelCell className="text-amber-800">Gesamt Unten</LabelCell>
         {players.map((p) => (
           <TotalCell key={p.id} value={lowerSum(p.scores)} />
         ))}
       </Row>
       <Row>
-        <LabelCell className="text-slate-800">Gesamt Oben</LabelCell>
+        <LabelCell className="text-amber-800">Gesamt Oben</LabelCell>
         {players.map((p) => (
           <TotalCell key={p.id} value={upperTotal(p.scores)} />
         ))}
       </Row>
       <Row last>
-        <LabelCell className="text-slate-800 mb-1">Endsumme</LabelCell>
+        <LabelCell className="text-amber-800 mb-1">Endsumme</LabelCell>
         {players.map((p) => (
           <TotalCell key={p.id} value={grandTotal(p.scores)} strong />
         ))}
@@ -473,7 +473,7 @@ function LabelCell({
     <div
       className={`w-[130px] sm:w-[160px] shrink-0 sticky left-0 ${
         isHeader ? "z-40" : "z-20"
-      } flex items-center border-r border-slate-300 px-2 py-2 text-sm font-semibold sm:px-3 bg-orange-50 ${className}`}
+      } flex items-center border-r border-amber-300 px-2 py-2 text-sm font-semibold sm:px-3 bg-orange-50 ${className}`}
     >
       {children}
     </div>
@@ -522,7 +522,7 @@ function ScoreCell({
   }
 
   return (
-    <div className="snap-start flex-1 shrink-0 min-w-[100px] sm:min-w-[120px] border-l border-slate-300 bg-orange-50 relative z-10">
+    <div className="snap-start flex-1 shrink-0 min-w-[100px] sm:min-w-[120px] border-l border-amber-300 bg-orange-50 relative z-10">
       <input
         inputMode="numeric"
         value={value === null ? "" : value}
@@ -530,14 +530,14 @@ function ScoreCell({
         onBlur={handleBlur}
         placeholder={fixed ? String(fixed) : ""}
         className={`h-full min-h-10 w-full bg-transparent text-center font-mono text-sm tabular-nums outline-none transition-colors focus:bg-orange-100 ${
-          isFilled ? "font-semibold text-slate-800" : "text-slate-900"
+          isFilled ? "font-semibold text-amber-800" : "text-amber-900"
         } ${isStruck ? "font-extrabold relative z-10" : "relative z-10"}`}
         aria-label="Punkte"
       />
 
       {isStruck && (
         <div className="absolute inset-0 flex items-center justify-center z-0 pointer-events-none">
-          <span className="font-normal tracking-tighter text-slate-900">
+          <span className="font-normal tracking-tighter text-amber-900">
             {"/////"}
           </span>
         </div>
@@ -557,15 +557,15 @@ function TotalCell({
 }) {
   return (
     <div
-      className={`snap-start flex-1 shrink-0 min-w-[170px] border-l border-slate-300 relative z-10 flex min-h-10 items-center justify-center px-1 font-mono tabular-nums ${
-        highlight ? "bg-slate-200" : "bg-orange-50"
+      className={`snap-start flex-1 shrink-0 min-w-[170px] border-l border-amber-300 relative z-10 flex min-h-10 items-center justify-center px-1 font-mono tabular-nums ${
+        highlight ? "bg-amber-200" : "bg-orange-50"
       }`}
     >
       <span
         className={
           strong
             ? "text-base font-bold text-sky-700"
-            : "text-sm font-semibold text-slate-800"
+            : "text-sm font-semibold text-amber-800"
         }
       >
         {value}
