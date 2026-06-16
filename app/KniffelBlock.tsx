@@ -217,7 +217,7 @@ function Header({
     <div className="mb-3 flex gap-4 flex-row items-end justify-between">
       <div>
         <h1 className="font-mono text-2xl font-bold tracking-tight text-teal-700 sm:text-4xl">
-          KNIFFEL<span className="text-red-600">BLOCK</span>
+          KNIFFELB<span className="text-red-600">L</span>OCK
         </h1>
       </div>
       <div className="flex gap-2">
