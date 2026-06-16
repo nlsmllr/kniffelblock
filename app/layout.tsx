@@ -83,7 +83,7 @@ export default function RootLayout({
           />
         </div>
         {/* VORDERGRUND - Behandelt globale "Safe Areas" für Mobile */}
-        <div
+        {/* <div
           className="flex-1 overflow-y-auto"
           style={{
             paddingTop: "env(safe-area-inset-top)",
@@ -91,9 +91,9 @@ export default function RootLayout({
             paddingLeft: "env(safe-area-inset-left)",
             paddingRight: "env(safe-area-inset-right)",
           }}
-        >
-          {children}
-        </div>
+        > */}
+        {children}
+        {/* </div> */}
       </body>
     </html>
   );
