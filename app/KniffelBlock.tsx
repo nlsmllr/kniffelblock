@@ -185,8 +185,7 @@ export function Kniffelblock() {
   return (
     <div className="mx-auto w-full p-4">
       <Header onAdd={addPlayer} onReset={reset} onHardReset={hardReset} />
-      <div className="overflow-auto overscroll-none snap-x snap-mandatory scroll-pl-[130px] sm:scroll-pl-[160px] max-h-[calc(100dvh-80px)] sm:max-h-screen w-full rounded-t-xl rounded-b-4xl border-2 border-red-600 bg-white">
-        {/* <div className="flex flex-col w-full min-w-max"> */}
+      <div className="overflow-auto overscroll-none snap-x snap-mandatory scroll-pl-[130px] sm:scroll-pl-[160px] max-h-[calc(100dvh-80px)] sm:max-h-screen w-full rounded-t-xl rounded-b-4xl border-2 border-emerald-700 bg-orange-50">
         <div className="flex flex-col w-fit min-w-full">
           <UpperSection
             players={players}
@@ -195,7 +194,7 @@ export function Kniffelblock() {
             onRemove={removePlayer}
             canRemove={players.length > 1}
           />
-          <div className="h-3 w-full bg-red-50 border-y border-red-200" />
+          <div className="h-3 w-full bg-emerald-50 border-y border-emerald-200" />
           <LowerSection players={players} onScore={setScore} />
         </div>
       </div>
@@ -216,8 +215,8 @@ function Header({
   return (
     <div className="mb-3 flex gap-4 flex-row items-center justify-between">
       <div>
-        <h1 className="font-mono text-2xl font-bold tracking-tight text-teal-700 sm:text-4xl">
-          KNIFFELB<span className="text-red-600">L</span>OCK
+        <h1 className="font-mono text-2xl font-bold tracking-tight text-slate-800 sm:text-4xl">
+          KNIFFELB<span className="text-emerald-700">L</span>OCK
         </h1>
       </div>
       <div className="flex gap-2">
@@ -225,7 +224,7 @@ function Header({
           type="button"
           onClick={onAdd}
           title="Spieler hinzufügen"
-          className="inline-flex items-center gap-1.5 rounded-lg border border-teal-300 bg-white px-3 py-2 text-sm font-medium text-teal-700 transition-colors hover:bg-teal-700 hover:text-white focus:outline-none focus:ring-2 focus:ring-teal-700 focus:ring-offset-2"
+          className="inline-flex items-center gap-1.5 rounded-lg border border-slate-300 bg-orange-50 px-3 py-2 text-sm font-medium text-slate-800 transition-colors hover:bg-slate-800 hover:text-orange-50 focus:outline-none focus:ring-2 focus:ring-slate-800 focus:ring-offset-2"
         >
           <Plus className="size-4" aria-hidden="true" />
         </button>
@@ -233,16 +232,15 @@ function Header({
           type="button"
           onClick={onReset}
           title="Punkte zurücksetzen"
-          className="inline-flex items-center gap-1.5 rounded-lg border border-amber-400 bg-white px-3 py-2 text-sm font-medium text-amber-500 transition-colors hover:bg-amber-600 hover:text-white focus:outline-none focus:ring-2 focus:ring-amber-600 focus:ring-offset-2"
+          className="inline-flex items-center gap-1.5 rounded-lg border border-slate-300 bg-orange-50 px-3 py-2 text-sm font-medium text-slate-800 transition-colors hover:bg-slate-700 hover:text-orange-50 focus:outline-none focus:ring-2 focus:ring-slate-700 focus:ring-offset-2"
         >
           <RotateCcw className="size-4" aria-hidden="true" />
         </button>
-        {/* --- NEUER BUTTON --- */}
         <button
           type="button"
           onClick={onHardReset}
           title="Alles löschen (Neustart)"
-          className="inline-flex items-center gap-1.5 rounded-lg border border-red-300 bg-white px-3 py-2 text-sm font-medium text-red-600 transition-colors hover:bg-red-600 hover:text-white focus:outline-none focus:ring-2 focus:ring-red-600 focus:ring-offset-2"
+          className="inline-flex items-center gap-1.5 rounded-lg border border-emerald-300 bg-orange-50 px-3 py-2 text-sm font-medium text-emerald-700 transition-colors hover:bg-emerald-700 hover:text-orange-50 focus:outline-none focus:ring-2 focus:ring-emerald-700 focus:ring-offset-2"
         >
           <Trash2 className="size-4" aria-hidden="true" />
         </button>
@@ -282,28 +280,25 @@ function UpperSection({
   onRemove: (id: string) => void;
   canRemove: boolean;
 }) {
-  // Ermittle die aktuelle Höchstpunktzahl (Endsumme) aller Spieler
   const highestScore = Math.max(...players.map((p) => grandTotal(p.scores)));
 
   return (
     <section className="flex flex-col w-full">
-      <Row className="sticky top-0 z-30 bg-white border-b-2 border-red-200">
-        <LabelCell className="text-gray-900" isHeader />
+      <Row className="sticky top-0 z-30 bg-orange-50 border-b-2 border-emerald-200">
+        <LabelCell className="text-slate-900" isHeader />
         {players.map((p, index) => {
-          // Spieler bekommt eine Krone, wenn er die Höchstpunktzahl hat und diese > 0 ist
           const isLeader =
             highestScore > 0 && grandTotal(p.scores) === highestScore;
 
           return (
             <div
               key={p.id}
-              className="snap-start flex-1 shrink-0 min-w-[120px] border-l border-gray-300 p-1 bg-white relative flex items-center justify-center min-h-[40px]"
+              className="snap-start flex-1 shrink-0 min-w-[120px] border-l border-slate-300 p-1 bg-orange-50 relative flex items-center justify-center min-h-[40px]"
             >
-              {/* Container für Name & Krone (mit px-6 Padding, damit langer Text nicht unter das X rutscht) */}
               <div className="flex items-center justify-center w-full px-6">
                 {isLeader && (
                   <Crown
-                    className="size-4 shrink-0 text-amber-400 mr-1"
+                    className="size-4 shrink-0 text-emerald-600 mr-1"
                     fill="currentColor"
                     aria-label="Führend"
                   />
@@ -314,20 +309,18 @@ function UpperSection({
                   value={p.name}
                   placeholder={`P${index + 1}`}
                   onChange={(e) => onName(p.id, e.target.value)}
-                  className="w-full min-w-0 rounded bg-transparent py-1 text-center text-sm font-semibold text-teal-700 outline-none focus:bg-gray-100 placeholder:text-teal-700/50"
+                  className="w-full min-w-0 rounded bg-transparent py-1 text-center text-sm font-semibold text-slate-800 outline-none focus:bg-orange-100 placeholder:text-slate-800/50"
                 />
 
-                {/* Unsichtbares Gegengewicht zur Krone, damit das Input-Feld exakt zentriert bleibt */}
                 {isLeader && <div className="size-4 shrink-0 ml-1" />}
               </div>
 
-              {/* Absolute Positionierung löst das X aus dem zentrierten Layout */}
               {canRemove && (
                 <button
                   type="button"
                   aria-label={`${p.name || `Spieler ${index + 1}`} entfernen`}
                   onClick={() => onRemove(p.id)}
-                  className="absolute right-1 top-1/2 -translate-y-1/2 rounded p-0.5 text-gray-400 transition-colors hover:bg-red-600 hover:text-white"
+                  className="absolute right-1 top-1/2 -translate-y-1/2 rounded p-0.5 text-slate-400 transition-colors hover:bg-emerald-700 hover:text-orange-50"
                 >
                   <X className="size-3.5" aria-hidden="true" />
                 </button>
@@ -346,7 +339,7 @@ function UpperSection({
                 {Array.from({ length: 5 }).map((_, i) => (
                   <Die
                     key={i}
-                    className="text-red-600 size-5"
+                    className="text-emerald-700 size-5"
                     aria-hidden="true"
                   />
                 ))}
@@ -365,15 +358,15 @@ function UpperSection({
       })}
 
       <Row>
-        <LabelCell className="text-teal-700">Gesamt</LabelCell>
+        <LabelCell className="text-slate-800">Gesamt</LabelCell>
         {players.map((p) => (
           <TotalCell key={p.id} value={upperSum(p.scores)} />
         ))}
       </Row>
       <Row>
-        <LabelCell className="text-teal-700 gap-1.75">
+        <LabelCell className="text-slate-800 gap-1.75">
           <p>{"Bonus"}</p>
-          <p className="text-teal-700/50">{"ab 63"}</p>
+          <p className="text-slate-800/50">{"ab 63"}</p>
         </LabelCell>
         {players.map((p) => (
           <TotalCell
@@ -384,7 +377,7 @@ function UpperSection({
         ))}
       </Row>
       <Row last>
-        <LabelCell className="text-teal-700">Gesamt Oben</LabelCell>
+        <LabelCell className="text-slate-800">Gesamt Oben</LabelCell>
         {players.map((p) => (
           <TotalCell key={p.id} value={upperTotal(p.scores)} strong />
         ))}
@@ -406,7 +399,7 @@ function LowerSection({
     <section className="flex flex-col w-full">
       {LOWER.map((r) => (
         <Row key={r.key}>
-          <LabelCell className="text-red-600">
+          <LabelCell className="text-emerald-700">
             {"hearts" in r && r.hearts ? (
               <div className="flex items-center gap-0.5">Kniffel</div>
             ) : (
@@ -426,19 +419,19 @@ function LowerSection({
       ))}
 
       <Row>
-        <LabelCell className="text-teal-700">Gesamt Unten</LabelCell>
+        <LabelCell className="text-slate-800">Gesamt Unten</LabelCell>
         {players.map((p) => (
           <TotalCell key={p.id} value={lowerSum(p.scores)} />
         ))}
       </Row>
       <Row>
-        <LabelCell className="text-teal-700">Gesamt Oben</LabelCell>
+        <LabelCell className="text-slate-800">Gesamt Oben</LabelCell>
         {players.map((p) => (
           <TotalCell key={p.id} value={upperTotal(p.scores)} />
         ))}
       </Row>
       <Row last>
-        <LabelCell className="text-teal-700 mb-1">Endsumme</LabelCell>
+        <LabelCell className="text-slate-800 mb-1">Endsumme</LabelCell>
         {players.map((p) => (
           <TotalCell key={p.id} value={grandTotal(p.scores)} strong />
         ))}
@@ -460,7 +453,7 @@ function Row({
 }) {
   return (
     <div
-      className={`flex w-full ${last ? "" : "border-b border-red-200"} ${className}`}
+      className={`flex w-full ${last ? "" : "border-b border-emerald-200"} ${className}`}
     >
       {children}
     </div>
@@ -480,7 +473,7 @@ function LabelCell({
     <div
       className={`w-[130px] sm:w-[160px] shrink-0 sticky left-0 ${
         isHeader ? "z-40" : "z-20"
-      } flex items-center border-r border-gray-300 px-2 py-2 text-sm font-semibold sm:px-3 bg-white ${className}`}
+      } flex items-center border-r border-slate-300 px-2 py-2 text-sm font-semibold sm:px-3 bg-orange-50 ${className}`}
     >
       {children}
     </div>
@@ -510,7 +503,6 @@ function ScoreCell({
     if (Number.isNaN(n)) return;
     if (n < 0) n = 0;
 
-    // Nimm den maximalen Wert aus den steps, falls vorhanden
     const currentMax = steps ? steps[steps.length - 1] : max;
     if (currentMax !== undefined && n > currentMax) n = currentMax;
 
@@ -518,10 +510,8 @@ function ScoreCell({
   }
 
   function handleBlur() {
-    // Wenn es einen Wert gibt und steps definiert sind, snappe zum nächsten gültigen Wert
     if (value !== null && value !== 0 && steps) {
       if (!steps.includes(value)) {
-        // 0 bleibt immer eine gültige Option (Streichergebnis)
         const validOptions = [0, ...steps];
         const closest = validOptions.reduce((prev, curr) =>
           Math.abs(curr - value) < Math.abs(prev - value) ? curr : prev,
@@ -532,22 +522,22 @@ function ScoreCell({
   }
 
   return (
-    <div className="snap-start flex-1 shrink-0 min-w-[100px] sm:min-w-[120px] border-l border-gray-300 bg-white relative z-10">
+    <div className="snap-start flex-1 shrink-0 min-w-[100px] sm:min-w-[120px] border-l border-slate-300 bg-orange-50 relative z-10">
       <input
         inputMode="numeric"
         value={value === null ? "" : value}
         onChange={handle}
         onBlur={handleBlur}
         placeholder={fixed ? String(fixed) : ""}
-        className={`h-full min-h-10 w-full bg-transparent text-center font-mono text-sm tabular-nums outline-none transition-colors focus:bg-gray-100 ${
-          isFilled ? "font-semibold text-teal-700" : "text-gray-900"
+        className={`h-full min-h-10 w-full bg-transparent text-center font-mono text-sm tabular-nums outline-none transition-colors focus:bg-orange-100 ${
+          isFilled ? "font-semibold text-slate-800" : "text-slate-900"
         } ${isStruck ? "font-extrabold relative z-10" : "relative z-10"}`}
         aria-label="Punkte"
       />
 
       {isStruck && (
         <div className="absolute inset-0 flex items-center justify-center z-0 pointer-events-none">
-          <span className="font-normal tracking-tighter text-gray-900">
+          <span className="font-normal tracking-tighter text-slate-900">
             {"/////"}
           </span>
         </div>
@@ -566,21 +556,16 @@ function TotalCell({
   highlight?: boolean;
 }) {
   return (
-    // <div
-    //   className={`snap-start flex-1 shrink-0 border-l border-gray-300 relative z-10 flex min-h-10 items-center justify-center px-1 font-mono tabular-nums ${
-    //     highlight ? "bg-teal-50" : "bg-white"
-    //   }`}
-    // >
     <div
-      className={`snap-start flex-1 shrink-0 min-w-[170px] border-l border-gray-300 relative z-10 flex min-h-10 items-center justify-center px-1 font-mono tabular-nums ${
-        highlight ? "bg-teal-50" : "bg-white"
+      className={`snap-start flex-1 shrink-0 min-w-[170px] border-l border-slate-300 relative z-10 flex min-h-10 items-center justify-center px-1 font-mono tabular-nums ${
+        highlight ? "bg-slate-200" : "bg-orange-50"
       }`}
     >
       <span
         className={
           strong
-            ? "text-base font-bold text-red-600"
-            : "text-sm font-semibold text-teal-700"
+            ? "text-base font-bold text-emerald-700"
+            : "text-sm font-semibold text-slate-800"
         }
       >
         {value}
