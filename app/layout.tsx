@@ -1,7 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
-import Grainient from "./Grainient"; // Client Component in Server Component importieren ist erlaubt!
+import Grainient from "./Grainient";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -19,7 +19,8 @@ export const viewport: Viewport = {
   maximumScale: 1,
   minimumScale: 1,
   userScalable: false,
-  viewportFit: "cover", // Sehr wichtig für die iOS Notch
+  viewportFit: "cover", // Wichtig für die iOS Notch
+  themeColor: "#4c4761", // Sagt dem Browser, welche Farbe der Header-Bereich haben soll
 };
 
 export const metadata: Metadata = {
@@ -34,8 +35,8 @@ export const metadata: Metadata = {
   },
   appleWebApp: {
     capable: true,
-    // NEU: DAS ist das Zauberwort für iOS-Homescreen-Apps!
-    // Nur mit "black-translucent" darf die App HINTER die Notch zeichnen.
+    // DAS ist das Zauberwort für iOS-Homescreen-Apps (PWA)!
+    // Erlaubt das Zeichnen hinter die Notch.
     statusBarStyle: "black-translucent",
     title: "Kniffelblock",
   },
@@ -52,9 +53,10 @@ export default function RootLayout({
       className={`${geistSans.variable} ${geistMono.variable} antialiased`}
     >
       {/* Body fixiert den Viewport auf exakt 100dvh. 
-        Overflow-hidden verhindert, dass der Body scrollt (wir scrollen nur den Inhalt).
+        overflow-hidden verhindert, dass der Body scrollt (wir scrollen nur die Tabelle).
+        select-none verhindert ungewolltes Markieren von Text beim Antippen.
       */}
-      <body className="bg-[#cb1d57] relative flex h-[100dvh] w-full flex-col overflow-hidden text-gray-900 select-none">
+      <body className="bg-[#4c4761] relative flex h-[100dvh] w-full flex-col overflow-hidden text-gray-900 select-none">
         {/* HINTERGRUND - Global für die ganze App */}
         <div className="fixed inset-0 z-[-1] bg-[#4c4761]">
           <Grainient
@@ -82,18 +84,22 @@ export default function RootLayout({
             zoom={1.2}
           />
         </div>
-        {/* VORDERGRUND - Behandelt globale "Safe Areas" für Mobile */}
-        {/* <div
-          className="flex-1 overflow-y-auto"
+
+        {/* VORDERGRUND - Behandelt globale "Safe Areas" für Mobile.
+          max(1rem, env(...)) sorgt dafür, dass auf normalen Bildschirmen (Desktop) 
+          mindestens 1rem Abstand nach oben ist.
+        */}
+        <div
+          className="flex h-full w-full flex-col"
           style={{
-            paddingTop: "env(safe-area-inset-top)",
+            paddingTop: "max(1rem, env(safe-area-inset-top))",
             paddingBottom: "env(safe-area-inset-bottom)",
             paddingLeft: "env(safe-area-inset-left)",
             paddingRight: "env(safe-area-inset-right)",
           }}
-        > */}
-        {children}
-        {/* </div> */}
+        >
+          {children}
+        </div>
       </body>
     </html>
   );
