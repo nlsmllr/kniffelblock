@@ -182,7 +182,7 @@ export function Kniffelblock() {
 
   return (
     // HIER: 'h-full flex flex-col' hinzugefügt, damit es die Höhe aus der page.tsx übernimmt
-    <div className="mx-auto w-full h-full flex flex-col sm:p-12 p-4">
+    <div className="mx-auto w-full h-full flex flex-col sm:p-12 p-4 sm:pb-4">
       <Header onAdd={addPlayer} onReset={reset} onHardReset={hardReset} />
 
       {/* HIER: 'max-h-[calc(100dvh-80px)]' und 'sm:max-h-screen' ENTFERNT!
