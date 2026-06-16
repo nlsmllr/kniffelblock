@@ -84,7 +84,7 @@ export default function RootLayout({
         </div>
 
         {/* EIGENTLICHER INHALT (respektiert die Notch) */}
-        <main className="flex-1 flex flex-col w-full pt-[env(safe-area-inset-top)]">
+        <main className="flex-1 flex flex-col w-full pt-[env(safe-area-inset-top)] pb-[env(safe-area-inset-bottom)]">
           {children}
         </main>
       </body>
