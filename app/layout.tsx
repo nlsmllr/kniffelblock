@@ -34,7 +34,9 @@ export const metadata: Metadata = {
   },
   appleWebApp: {
     capable: true,
-    statusBarStyle: "default",
+    // NEU: DAS ist das Zauberwort für iOS-Homescreen-Apps!
+    // Nur mit "black-translucent" darf die App HINTER die Notch zeichnen.
+    statusBarStyle: "black-translucent",
     title: "Kniffelblock",
   },
 };
@@ -52,7 +54,7 @@ export default function RootLayout({
       {/* Body fixiert den Viewport auf exakt 100dvh. 
         Overflow-hidden verhindert, dass der Body scrollt (wir scrollen nur den Inhalt).
       */}
-      <body className="relative flex h-[100dvh] w-full flex-col overflow-hidden text-gray-900">
+      <body className="bg-[#cb1d57] relative flex h-[100dvh] w-full flex-col overflow-hidden text-gray-900 select-none">
         {/* HINTERGRUND - Global für die ganze App */}
         <div className="fixed inset-0 z-[-1] bg-[#4c4761]">
           <Grainient
@@ -80,7 +82,6 @@ export default function RootLayout({
             zoom={1.2}
           />
         </div>
-
         {/* VORDERGRUND - Behandelt globale "Safe Areas" für Mobile */}
         <div
           className="flex-1 overflow-y-auto"
