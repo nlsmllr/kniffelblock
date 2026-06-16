@@ -18,7 +18,7 @@ export const viewport: Viewport = {
   maximumScale: 1,
   minimumScale: 1,
   userScalable: false,
-  viewportFit: "cover", // WICHTIG: Erlaubt das Zeichnen unter die iOS-Notch
+  // viewportFit: "cover", // WICHTIG: Erlaubt das Zeichnen unter die iOS-Notch
 };
 
 export const metadata: Metadata = {
