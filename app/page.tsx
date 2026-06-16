@@ -2,7 +2,7 @@ import { Kniffelblock } from "./KniffelBlock";
 
 export default function Page() {
   return (
-    <main className="font-mono mt-7 w-full">
+    <main className="font-mono w-full">
       <Kniffelblock />
     </main>
   );
