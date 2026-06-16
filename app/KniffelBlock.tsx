@@ -183,7 +183,7 @@ export function Kniffelblock() {
   return (
     <div className="mx-auto w-full sm:p-12 p-4">
       <Header onAdd={addPlayer} onReset={reset} onHardReset={hardReset} />
-      <div className="overflow-auto overscroll-none snap-x snap-mandatory scroll-pl-[130px] sm:scroll-pl-[160px] max-h-[calc(100dvh-80px)] sm:max-h-screen w-full rounded-t-xl rounded-b-4xl border-2 border-red-600 bg-white">
+      <div className="overflow-auto overscroll-none snap-x snap-mandatory scroll-pl-[130px] sm:scroll-pl-[160px] max-h-[calc(100dvh-150px)] sm:max-h-screen w-full rounded-t-xl rounded-b-4xl border-2 border-red-600 bg-white">
         {/* <div className="flex flex-col w-full min-w-max"> */}
         <div className="flex flex-col w-fit min-w-full">
           <UpperSection
