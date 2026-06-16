@@ -181,10 +181,14 @@ export function Kniffelblock() {
   if (!loaded) return null;
 
   return (
-    <div className="mx-auto w-full sm:p-12 p-4">
+    // HIER: 'h-full flex flex-col' hinzugefügt, damit es die Höhe aus der page.tsx übernimmt
+    <div className="mx-auto w-full h-full flex flex-col sm:p-12 p-4">
       <Header onAdd={addPlayer} onReset={reset} onHardReset={hardReset} />
-      <div className="overflow-auto overscroll-none snap-x snap-mandatory scroll-pl-[130px] sm:scroll-pl-[160px] max-h-[calc(100dvh-150px)] sm:max-h-screen w-full rounded-t-xl rounded-b-4xl border-2 border-red-600 bg-white">
-        {/* <div className="flex flex-col w-full min-w-max"> */}
+
+      {/* HIER: 'max-h-[calc(100dvh-80px)]' und 'sm:max-h-screen' ENTFERNT!
+        DAFÜR: 'flex-1 min-h-0' hinzugefügt. (min-h-0 ist wichtig, damit das Scrollen im Flex-Container klappt)
+      */}
+      <div className="flex-1 min-h-0 overflow-auto overscroll-none snap-x snap-mandatory scroll-pl-[130px] sm:scroll-pl-[160px] w-full rounded-t-xl rounded-b-4xl border-2 border-red-600 bg-white shadow-lg">
         <div className="flex flex-col w-fit min-w-full">
           <UpperSection
             players={players}
