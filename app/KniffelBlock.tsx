@@ -169,11 +169,13 @@ export function Kniffelblock() {
   }
 
   function reset() {
-    setPlayers((prev) => prev.map((p) => ({ ...p, scores: emptyScores() })));
+     if (window.confirm("Willst du das Spiel von vorne starten?")) {
+      setPlayers((prev) => prev.map((p) => ({ ...p, scores: emptyScores() })));
+    }
   }
 
   function hardReset() {
-    if (window.confirm("Willst du wirklich alles löschen?")) {
+    if (window.confirm("Willst du alles löschen?")) {
       setPlayers([makePlayer()]);
     }
   }
