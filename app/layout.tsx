@@ -54,7 +54,7 @@ export default function RootLayout({
       {/* Body fixiert den Viewport auf exakt 100dvh. 
         Overflow-hidden verhindert, dass der Body scrollt (wir scrollen nur den Inhalt).
       */}
-      <body className="bg-[#cb1d57] relative flex h-[100dvh] w-full flex-col overflow-hidden text-gray-900 select-none">
+      <body className="bg-[#cb1d57] relative flex w-full flex-col overflow-hidden text-gray-900 select-none">
         {/* HINTERGRUND - Global für die ganze App */}
         <div className="fixed inset-0 z-[-1] bg-[#4c4761]">
           <Grainient
