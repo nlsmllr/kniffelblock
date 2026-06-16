@@ -169,7 +169,7 @@ export function Kniffelblock() {
   }
 
   function reset() {
-     if (window.confirm("Willst du das Spiel von vorne starten?")) {
+    if (window.confirm("Willst du das Spiel von vorne starten?")) {
       setPlayers((prev) => prev.map((p) => ({ ...p, scores: emptyScores() })));
     }
   }
@@ -195,9 +195,7 @@ export function Kniffelblock() {
             onRemove={removePlayer}
             canRemove={players.length > 1}
           />
-
           <div className="h-3 w-full bg-red-50 border-y border-red-200" />
-
           <LowerSection players={players} onScore={setScore} />
         </div>
       </div>
