@@ -19,7 +19,7 @@ export const viewport: Viewport = {
   maximumScale: 1,
   minimumScale: 1,
   userScalable: false,
-  viewportFit: "cover", // Sorgt dafür, dass der Inhalt bis in die Ränder (Notch) ragt
+  viewportFit: "cover",
 };
 
 export const metadata: Metadata = {
@@ -39,7 +39,7 @@ export const metadata: Metadata = {
   },
   appleWebApp: {
     capable: true,
-    statusBarStyle: "black-translucent", // Macht die Statusleiste transparent, wenn als PWA installiert
+    statusBarStyle: "black-translucent",
     title: "Kniffelblock",
   },
 };
@@ -55,7 +55,7 @@ export default function RootLayout({
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col relative">
-        {/* HINTERGRUND-EBENE */}
+        {/* HINTERGRUND-EBENE (ignoriert die Notch) */}
         <div className="fixed inset-0 z-[-1] w-full h-full pointer-events-none">
           <Grainient
             color1="#FF9FFC"
@@ -83,8 +83,10 @@ export default function RootLayout({
           />
         </div>
 
-        {/* EIGENTLICHER INHALT */}
-        {children}
+        {/* EIGENTLICHER INHALT (respektiert die Notch) */}
+        <main className="flex-1 flex flex-col w-full pt-[env(safe-area-inset-top)] pb-[env(safe-area-inset-bottom)] pl-[env(safe-area-inset-left)] pr-[env(safe-area-inset-right)]">
+          {children}
+        </main>
       </body>
     </html>
   );
