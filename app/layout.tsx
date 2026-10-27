@@ -21,8 +21,8 @@ export const viewport: Viewport = {
 };
 
 export const metadata: Metadata = {
-  title: "Kniffelblock",
-  description: "Kniffelblock",
+  title: "Kniffel",
+  description: "Kniffel würfeln – allein, auf einem Gerät oder online mit Freunden",
   icons: {
     icon: [
       {
@@ -49,7 +49,7 @@ export default function RootLayout({
 }>) {
   return (
     <html
-      lang="en"
+      lang="de"
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col">{children}</body>

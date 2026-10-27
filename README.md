@@ -1,36 +1,35 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Kniffel
 
-## Getting Started
+Kniffel zum Würfeln und Eintragen – mit Next.js.
 
-First, run the development server:
+- **Lokales Spiel** (`/lokal`): mehrere Spieler auf einem Telefon/Rechner, Gerät wird weitergereicht. Spielstand bleibt im Browser gespeichert.
+- **Online-Spiel** (`/online/CODE`): jeder auf seinem eigenen Gerät. Spiel erstellen, Code oder Link teilen, Host startet. Gewürfelt wird auf dem Server, Züge werden pro Gerät mit einem geheimen Token geprüft.
+- **Nur Block** (`/block`): der digitale Kniffelblock zum Mitschreiben mit echten Würfeln.
+
+Der Username wird im Browser gespeichert und für neue Spiele vorausgefüllt.
+
+## Entwicklung
 
 ```bash
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Ohne weitere Konfiguration werden Online-Spiele im Speicher des Servers gehalten – das reicht für `npm run dev` (auch mit mehreren Geräten im selben WLAN über `http://<deine-IP>:3000`).
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Deployment (Vercel)
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Serverless-Funktionen teilen keinen Speicher, daher braucht der Online-Modus in Produktion eine Redis-Datenbank:
 
-## Learn More
+1. Im Vercel-Projekt unter **Storage → Marketplace** „Upstash for Redis“ (kostenloser Plan reicht) hinzufügen und mit dem Projekt verbinden.
+2. Dadurch werden `KV_REST_API_URL` und `KV_REST_API_TOKEN` gesetzt (alternativ `UPSTASH_REDIS_REST_URL` / `UPSTASH_REDIS_REST_TOKEN`).
+3. Neu deployen.
 
-To learn more about Next.js, take a look at the following resources:
+Spiele werden nach 24 Stunden automatisch gelöscht.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Aufbau
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- `lib/kniffel.ts` – Regeln & Spiellogik (Punkte, Züge, Würfeln), genutzt von Client und Server
+- `lib/store.ts` – Speicherung der Online-Spiele (Upstash Redis oder In-Memory)
+- `app/api/games` – API zum Erstellen, Beitreten und Spielen
+- `components/game` – Würfel, Spielblock und Spielansicht

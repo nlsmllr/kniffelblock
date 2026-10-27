@@ -27,6 +27,27 @@ body::-webkit-scrollbar {
   background: transparent;
 }
 
+@theme {
+  --animate-dice-roll: dice-roll 0.5s ease-out both;
+
+  @keyframes dice-roll {
+    0% {
+      transform: rotate(0deg) scale(0.7);
+      opacity: 0.3;
+    }
+    40% {
+      transform: rotate(200deg) scale(1.08);
+    }
+    70% {
+      transform: rotate(330deg) scale(0.96);
+    }
+    100% {
+      transform: rotate(360deg) scale(1);
+      opacity: 1;
+    }
+  }
+}
+
 @theme inline {
   --font-heading: var(--font-sans);
   --font-sans: var(--font-sans);

@@ -1,9 +1,9 @@
-import { Kniffelblock } from "./KniffelBlock";
+import { Home } from "./Home";
 
 export default function Page() {
   return (
     <main className="font-mono">
-      <Kniffelblock />
+      <Home />
     </main>
   );
 }
