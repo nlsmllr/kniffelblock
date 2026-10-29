@@ -122,7 +122,7 @@ export function ScoreSheet({
   return (
     <div
       ref={scrollRef}
-      className={`w-full overscroll-x-none border-[3px] border-ink bg-paper shadow-hard ${
+      className={`min-h-0 w-full overflow-y-auto overscroll-none border-[3px] border-ink bg-paper shadow-hard ${
         scrollable ? "overflow-x-auto" : "overflow-x-hidden touch-pan-y"
       }`}
     >
