@@ -240,8 +240,9 @@ type P = GameState["players"][number];
 
 function SectionBar({ children }: { children: React.ReactNode }) {
   return (
-    <div className="sticky left-0 w-full border-b-[3px] border-ink bg-mint px-2 py-0.5 text-[10px] font-bold tracking-[0.3em] uppercase sm:px-3">
-      {children}
+    <div className="w-full border-b-[3px] border-ink bg-mint py-0.5 text-[10px] font-bold tracking-[0.3em] uppercase">
+      {/* The bar spans the full scroll width; only the label sticks left. */}
+      <span className="sticky left-0 inline-block px-2 sm:px-3">{children}</span>
     </div>
   );
 }
