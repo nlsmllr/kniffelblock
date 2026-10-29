@@ -95,7 +95,7 @@ export function GameView({
             <div className="flex items-stretch justify-between gap-2 text-sm">
               <span
                 className={`truncate px-2 py-0.5 font-bold uppercase ${
-                  canAct || isMe ? "bg-signal text-paper" : "bg-stone"
+                  canAct || isMe ? "border-2 border-ink bg-coral" : "border-2 border-ink bg-stone"
                 }`}
               >
                 {status}
@@ -104,8 +104,8 @@ export function GameView({
                 {Array.from({ length: ROLLS_PER_TURN }, (_, i) => (
                   <span
                     key={i}
-                    className={`size-3 border-2 border-ink ${
-                      i < ROLLS_PER_TURN - state.rollsLeft ? "bg-ink" : ""
+                    className={`size-4 border-2 border-ink ${
+                      i < ROLLS_PER_TURN - state.rollsLeft ? "bg-ink" : "bg-paper"
                     }`}
                   />
                 ))}
@@ -145,7 +145,7 @@ export function GameView({
                   type="button"
                   onClick={() => select(selected)}
                   disabled={busy}
-                  className={`${primaryButton} flex-1 border-signal! bg-signal! shadow-hard!`}
+                  className={`${primaryButton} flex-1 bg-mint! hover:bg-pop!`}
                 >
                   <Check className="size-5" aria-hidden />
                   <span className="truncate">
@@ -179,14 +179,14 @@ function Results({
   const top = ranked[0]?.total ?? 0;
   return (
     <div className="border-[3px] border-ink bg-paper shadow-hard">
-      <h2 className="font-display flex items-center gap-2 bg-signal px-4 py-2 text-3xl leading-none text-paper uppercase">
+      <h2 className="font-display flex items-center gap-2 border-b-[3px] border-ink bg-coral px-4 py-2 text-3xl leading-none uppercase">
         <Trophy className="size-6" aria-hidden /> Spiel beendet
       </h2>
       <ol className="flex flex-col">
         {ranked.map((p, i) => (
           <li
             key={p.id}
-            className={`flex items-center justify-between border-t-[3px] border-ink px-4 py-2 text-sm font-bold uppercase ${
+            className={`flex items-center justify-between border-t-[3px] border-ink px-4 py-2 text-sm font-bold uppercase first:border-t-0 ${
               p.total === top ? "bg-pop" : ""
             }`}
           >

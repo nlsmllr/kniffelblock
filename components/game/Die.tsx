@@ -1,3 +1,7 @@
+"use client";
+
+import { useEffect, useState } from "react";
+
 const PIPS: Record<number, [number, number][]> = {
   1: [[50, 50]],
   2: [[28, 28], [72, 72]],
@@ -6,6 +10,37 @@ const PIPS: Record<number, [number, number][]> = {
   5: [[28, 28], [72, 28], [50, 50], [28, 72], [72, 72]],
   6: [[28, 26], [72, 26], [28, 50], [72, 50], [28, 74], [72, 74]],
 };
+
+// Faces shown while a die is in the air, before it lands on its real value.
+const FLICKER_TICKS = 6;
+const FLICKER_MS = 65;
+const STAGGER_MS = 60;
+
+function useFlicker(active: boolean, delay: number) {
+  const [face, setFace] = useState<number | null>(null);
+  useEffect(() => {
+    if (!active) return;
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    let ticks = 0;
+    let interval: number | undefined;
+    const start = window.setTimeout(() => {
+      interval = window.setInterval(() => {
+        ticks++;
+        if (ticks > FLICKER_TICKS) {
+          window.clearInterval(interval);
+          setFace(null);
+        } else {
+          setFace(1 + Math.floor(Math.random() * 6));
+        }
+      }, FLICKER_MS);
+    }, delay);
+    return () => {
+      window.clearTimeout(start);
+      window.clearInterval(interval);
+    };
+  }, [active, delay]);
+  return face;
+}
 
 export function Die({
   value,
@@ -24,6 +59,9 @@ export function Die({
   onClick?: () => void;
   index: number;
 }) {
+  const delay = index * STAGGER_MS;
+  const flicker = useFlicker(Boolean(rolling), delay);
+
   return (
     <button
       type="button"
@@ -34,22 +72,18 @@ export function Die({
       className="group relative flex flex-col items-center gap-1.5 outline-none disabled:cursor-default"
     >
       <span
-        className={`block border-[3px] border-ink transition-[transform,box-shadow] group-focus-visible:outline-[3px] group-focus-visible:outline-offset-2 group-focus-visible:outline-signal ${
+        className={`block origin-bottom border-[3px] border-ink transition-[transform,box-shadow,background-color] group-focus-visible:outline-[3px] group-focus-visible:outline-offset-2 group-focus-visible:outline-ink ${
           held
-            ? "translate-x-[3px] translate-y-[3px] bg-signal shadow-none"
+            ? "translate-x-[3px] translate-y-[3px] bg-coral shadow-none"
             : "bg-white shadow-hard"
-        } ${faded ? "opacity-35" : ""}`}
+        } ${faded ? "opacity-35" : ""} ${rolling ? "motion-safe:animate-dice-tumble" : ""}`}
+        style={rolling ? { animationDelay: `${delay}ms` } : undefined}
       >
-        <DieFace
-          value={value}
-          held={held}
-          className={`size-12 sm:size-14 ${rolling ? "animate-dice-roll" : ""}`}
-          style={rolling ? { animationDelay: `${index * 40}ms` } : undefined}
-        />
+        <DieFace value={flicker ?? value} className="size-12 sm:size-14" />
       </span>
       <span
-        className={`px-1 text-[10px] font-bold tracking-[0.15em] uppercase ${
-          held ? "bg-ink text-paper" : "text-transparent"
+        className={`border-2 px-1 text-[10px] font-bold tracking-[0.15em] uppercase ${
+          held ? "border-ink bg-coral" : "border-transparent text-transparent"
         }`}
       >
         Halten
@@ -60,13 +94,11 @@ export function Die({
 
 export function DieFace({
   value,
-  held,
   framed,
   className,
   style,
 }: {
   value: number;
-  held?: boolean;
   /** Draw its own square outline (for small inline dice). */
   framed?: boolean;
   className?: string;
@@ -91,7 +123,7 @@ export function DieFace({
           y={cy - 9}
           width="18"
           height="18"
-          className={held ? "fill-paper" : "fill-ink"}
+          className="fill-ink"
         />
       ))}
     </svg>

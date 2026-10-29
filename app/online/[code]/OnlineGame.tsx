@@ -353,7 +353,7 @@ function Lobby({
     <div className="flex flex-col gap-4">
       <Card>
         <p className="text-center text-sm font-bold uppercase">Spielcode</p>
-        <p className="font-display -rotate-2 bg-ink py-3 text-center text-6xl leading-none tracking-[0.15em] text-paper">
+        <p className="font-display -rotate-2 border-[3px] border-ink bg-pop py-3 text-center text-6xl leading-none tracking-[0.15em] shadow-hard">
           {game.id}
         </p>
         <ShareButton code={game.id} />
@@ -381,7 +381,7 @@ function Lobby({
                   type="button"
                   onClick={() => onKick(p.id)}
                   aria-label={`${p.name} entfernen`}
-                  className="border-2 border-transparent p-0.5 hover:border-ink hover:bg-signal hover:text-paper"
+                  className="border-2 border-transparent p-0.5 hover:border-ink hover:bg-coral"
                 >
                   <X className="size-4" aria-hidden />
                 </button>

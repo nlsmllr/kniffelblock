@@ -27,15 +27,19 @@ body::-webkit-scrollbar {
   background: transparent;
 }
 
-/* Brutalist palette built on the original block colours. */
+/* Pastel brutalism: soft fills, hard dark outlines. */
 @theme {
-  --color-paper: #f5f1e8;
-  --color-stone: #e8e2d4;
-  --color-mute: #8b8f7c;
-  --color-ink: #1f2e0a;
-  --color-moss: #3d6300;
-  --color-signal: #c10007;
-  --color-pop: #d8f999;
+  --color-paper: #f8f5ef;
+  --color-stone: #eee8de;
+  --color-mute: #8d8898;
+  --color-ink: #2b2a33;
+  /* Deeper coral for text on light backgrounds. */
+  --color-signal: #c94f3d;
+  --color-coral: #ffb4a2;
+  --color-mint: #bfe6cf;
+  --color-pop: #fde9a6;
+  --color-lavender: #d4cbf6;
+  --color-sky: #c4e2f7;
 
   --font-display: var(--font-archivo), "Arial Narrow", sans-serif;
   --font-mono: var(--font-plex-mono), ui-monospace, monospace;
@@ -43,22 +47,38 @@ body::-webkit-scrollbar {
   --shadow-hard: 4px 4px 0 0 var(--color-ink);
   --shadow-hard-sm: 2px 2px 0 0 var(--color-ink);
 
-  --animate-dice-roll: dice-roll 0.5s ease-out both;
+  --animate-dice-tumble: dice-tumble 0.65s cubic-bezier(0.3, 0.7, 0.4, 1) both;
 
-  @keyframes dice-roll {
+  /* Jump, spin, land with a squash and a little rebound. The hard shadow
+     grows with the height so the die seems to lift off the page. */
+  @keyframes dice-tumble {
     0% {
-      transform: rotate(0deg) scale(0.7);
-      opacity: 0.3;
+      transform: translateY(0) rotate(0);
+      box-shadow: 4px 4px 0 0 var(--color-ink);
+    }
+    20% {
+      transform: translateY(-24px) rotate(-14deg);
+      box-shadow: 9px 11px 0 0 var(--color-ink);
     }
     40% {
-      transform: rotate(200deg) scale(1.08);
+      transform: translateY(-28px) rotate(12deg);
+      box-shadow: 10px 13px 0 0 var(--color-ink);
     }
-    70% {
-      transform: rotate(330deg) scale(0.96);
+    62% {
+      transform: translateY(0) rotate(-4deg) scale(1.08, 0.9);
+      box-shadow: 2px 2px 0 0 var(--color-ink);
+    }
+    76% {
+      transform: translateY(-8px) rotate(2deg) scale(0.97, 1.04);
+      box-shadow: 6px 7px 0 0 var(--color-ink);
+    }
+    90% {
+      transform: translateY(0) scale(1.02, 0.98);
+      box-shadow: 4px 4px 0 0 var(--color-ink);
     }
     100% {
-      transform: rotate(360deg) scale(1);
-      opacity: 1;
+      transform: none;
+      box-shadow: 4px 4px 0 0 var(--color-ink);
     }
   }
 }
