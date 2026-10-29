@@ -1,3 +1,6 @@
+"use client";
+
+import { useEffect, useRef, useState } from "react";
 import { Crown } from "lucide-react";
 import {
   bonus,
@@ -33,6 +36,22 @@ export function ScoreSheet({
   const playing = state.phase === "playing";
   const rolled = playing && hasRolled(state);
   const best = Math.max(0, ...players.map((p) => grandTotal(p.scores)));
+
+  // Only allow sideways scrolling when the columns really don't fit;
+  // otherwise iOS still rubber-bands the block horizontally.
+  const scrollRef = useRef<HTMLDivElement>(null);
+  const [scrollable, setScrollable] = useState(false);
+  useEffect(() => {
+    const el = scrollRef.current;
+    const content = el?.firstElementChild;
+    if (!el || !content) return;
+    const observer = new ResizeObserver(() =>
+      setScrollable(el.scrollWidth > el.clientWidth + 1),
+    );
+    observer.observe(el);
+    observer.observe(content);
+    return () => observer.disconnect();
+  }, []);
 
   function categoryRow(key: CategoryKey, label: React.ReactNode) {
     return (
@@ -101,7 +120,12 @@ export function ScoreSheet({
   }
 
   return (
-    <div className="w-full overflow-x-auto overscroll-x-contain border-[3px] border-ink bg-paper shadow-hard">
+    <div
+      ref={scrollRef}
+      className={`w-full overscroll-x-none border-[3px] border-ink bg-paper shadow-hard ${
+        scrollable ? "overflow-x-auto" : "overflow-x-hidden touch-pan-y"
+      }`}
+    >
       <div className="flex w-fit min-w-full flex-col">
         <Row className="sticky top-0 z-30 border-b-[3px]! bg-paper">
           <LabelCell header>
