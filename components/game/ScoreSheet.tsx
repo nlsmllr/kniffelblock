@@ -57,34 +57,36 @@ export function ScoreSheet({
                 disabled={!clickable}
                 onClick={() => onSelect(key)}
                 aria-label={
-                  clickable ? `${points} Punkte bei ${CATEGORY_LABELS[key]}` : undefined
+                  clickable
+                    ? `${points} Punkte bei ${CATEGORY_LABELS[key]}`
+                    : undefined
                 }
-                className={`relative flex h-full min-h-10 w-full items-center justify-center font-mono text-sm tabular-nums transition-colors ${
+                className={`relative flex h-full min-h-11 w-full items-center justify-center text-sm tabular-nums outline-none focus-visible:bg-pop ${
                   isSelected
-                    ? "bg-lime-800 text-orange-50"
+                    ? "bg-ink text-paper"
                     : clickable
-                      ? "cursor-pointer hover:bg-lime-100"
+                      ? "cursor-pointer hover:bg-pop"
                       : justScored
-                        ? "bg-red-100"
+                        ? "bg-signal text-paper"
                         : ""
                 }`}
               >
                 {!open ? (
                   value === 0 ? (
-                    <span className="tracking-tighter text-lime-900">
+                    <span className="font-bold tracking-tighter">
                       {"/////"}
                     </span>
                   ) : (
-                    <span className="font-semibold text-lime-800">{value}</span>
+                    <span className="font-bold">{value}</span>
                   )
                 ) : preview ? (
                   <span
                     className={
                       isSelected
-                        ? "font-bold"
+                        ? "text-base font-bold"
                         : points
-                          ? "font-semibold text-red-700/70"
-                          : "text-lime-800/30"
+                          ? "font-bold text-signal"
+                          : "text-mute"
                     }
                   >
                     {points}
@@ -99,19 +101,28 @@ export function ScoreSheet({
   }
 
   return (
-    <div className="w-full overflow-x-auto overscroll-x-contain rounded-t-xl rounded-b-3xl border-2 border-red-700 bg-orange-50">
+    <div className="w-full overflow-x-auto overscroll-x-contain border-[3px] border-ink bg-paper shadow-hard">
       <div className="flex w-fit min-w-full flex-col">
-        <Row className="sticky top-0 z-30 border-b-2 border-red-200 bg-orange-50">
-          <LabelCell header />
+        <Row className="sticky top-0 z-30 border-b-[3px]! bg-paper">
+          <LabelCell header>
+            <span className="text-[10px] tracking-[0.2em] text-mute uppercase">
+              Spieler
+            </span>
+          </LabelCell>
           {players.map((p, i) => {
             const leader =
               best > 0 && grandTotal(p.scores) === best && players.length > 1;
+            const isCurrent = playing && i === state.current;
             return (
-              <Cell key={p.id} current={playing && i === state.current}>
-                <div className="flex min-h-10 items-center justify-center gap-1 px-1 py-1 text-center text-xs font-semibold text-lime-800 sm:text-sm">
+              <Cell key={p.id} current={isCurrent}>
+                <div
+                  className={`flex min-h-11 items-center justify-center gap-1 px-1 py-1 text-center text-xs font-bold uppercase sm:text-sm ${
+                    isCurrent ? "bg-ink text-paper" : ""
+                  }`}
+                >
                   {leader && (
                     <Crown
-                      className="size-3.5 shrink-0 text-red-600"
+                      className="size-3.5 shrink-0 text-signal"
                       fill="currentColor"
                       aria-label="Führend"
                     />
@@ -119,7 +130,7 @@ export function ScoreSheet({
                   <span className="truncate">
                     {p.name}
                     {p.id === viewerId && (
-                      <span className="text-lime-800/50"> (du)</span>
+                      <span className="opacity-50"> (du)</span>
                     )}
                   </span>
                 </div>
@@ -128,12 +139,13 @@ export function ScoreSheet({
           })}
         </Row>
 
+        <SectionBar>Oben</SectionBar>
         {UPPER_CATEGORIES.map((c) =>
           categoryRow(
             c.key,
             <span className="flex items-center gap-2">
-              <DieFace value={c.face} className="size-5 shrink-0" />
-              <span className="text-lime-900">{c.label}</span>
+              <DieFace value={c.face} framed className="size-5 shrink-0" />
+              <span>{c.label}</span>
             </span>,
           ),
         )}
@@ -146,8 +158,7 @@ export function ScoreSheet({
         <TotalRow
           label={
             <span>
-              Bonus{" "}
-              <span className="text-lime-800/50">ab {BONUS_THRESHOLD}</span>
+              Bonus <span className="text-mute">ab {BONUS_THRESHOLD}</span>
             </span>
           }
           players={players}
@@ -163,17 +174,15 @@ export function ScoreSheet({
           players={players}
           value={(p) => upperTotal(p.scores)}
           strong
-          last
         />
 
-        <div className="h-3 w-full border-y border-red-200 bg-red-50" />
-
+        <SectionBar>Unten</SectionBar>
         {LOWER_CATEGORIES.map((c) =>
           categoryRow(
             c.key,
             <span className="flex flex-col leading-tight">
-              <span className="text-red-700">{c.label}</span>
-              <span className="text-[10px] font-normal text-lime-800/50">
+              <span>{c.label}</span>
+              <span className="text-[10px] font-normal text-mute">
                 {c.hint}
               </span>
             </span>,
@@ -195,6 +204,7 @@ export function ScoreSheet({
           players={players}
           value={(p) => grandTotal(p.scores)}
           strong
+          final
           last
         />
       </div>
@@ -204,11 +214,20 @@ export function ScoreSheet({
 
 type P = GameState["players"][number];
 
+function SectionBar({ children }: { children: React.ReactNode }) {
+  return (
+    <div className="sticky left-0 w-full border-b-[3px] border-ink bg-moss px-2 py-0.5 text-[10px] font-bold tracking-[0.3em] text-paper uppercase sm:px-3">
+      {children}
+    </div>
+  );
+}
+
 function TotalRow({
   label,
   players,
   value,
   strong,
+  final,
   highlight,
   hint,
   last,
@@ -217,33 +236,36 @@ function TotalRow({
   players: P[];
   value: (p: P) => number;
   strong?: boolean;
+  final?: boolean;
   highlight?: (p: P) => boolean;
   hint?: (p: P) => string | null;
   last?: boolean;
 }) {
   return (
-    <Row last={last}>
-      <LabelCell>
-        <span className="text-lime-800">{label}</span>
+    <Row last={last} className={strong ? "border-b-[3px]! bg-stone" : "bg-stone"}>
+      <LabelCell muted>
+        <span className={final ? "font-display text-lg uppercase" : ""}>
+          {label}
+        </span>
       </LabelCell>
       {players.map((p) => {
         const h = hint?.(p);
         return (
           <Cell key={p.id} highlight={highlight?.(p)}>
-            <div className="flex min-h-10 flex-col items-center justify-center font-mono tabular-nums">
+            <div className="flex min-h-11 flex-col items-center justify-center tabular-nums">
               <span
                 className={
-                  strong
-                    ? "text-base font-bold text-red-700"
-                    : "text-sm font-semibold text-lime-800"
+                  final
+                    ? "font-display text-2xl text-signal"
+                    : strong
+                      ? "text-base font-bold text-signal"
+                      : "text-sm font-bold"
                 }
               >
                 {value(p)}
               </span>
               {h && (
-                <span className="text-[10px] leading-none text-lime-800/40">
-                  {h}
-                </span>
+                <span className="text-[10px] leading-none text-mute">{h}</span>
               )}
             </div>
           </Cell>
@@ -264,7 +286,7 @@ function Row({
 }) {
   return (
     <div
-      className={`flex w-full ${last ? "" : "border-b border-red-200"} ${className}`}
+      className={`flex w-full ${last ? "" : "border-b border-ink"} ${className}`}
     >
       {children}
     </div>
@@ -274,13 +296,17 @@ function Row({
 function LabelCell({
   children,
   header,
+  muted,
 }: {
   children?: React.ReactNode;
   header?: boolean;
+  muted?: boolean;
 }) {
   return (
     <div
-      className={`sticky left-0 ${header ? "z-40" : "z-20"} flex w-[124px] shrink-0 items-center border-r border-lime-300 bg-orange-50 px-2 py-1.5 text-xs font-semibold sm:w-[170px] sm:px-3 sm:text-sm`}
+      className={`sticky left-0 ${header ? "z-40" : "z-20"} flex w-[124px] shrink-0 items-center border-r-[3px] border-ink px-2 py-1.5 text-xs font-bold uppercase sm:w-[170px] sm:px-3 sm:text-sm ${
+        muted ? "bg-stone" : "bg-paper"
+      }`}
     >
       {children}
     </div>
@@ -298,8 +324,8 @@ function Cell({
 }) {
   return (
     <div
-      className={`min-w-[76px] flex-1 shrink-0 border-l border-lime-300 sm:min-w-[110px] ${
-        highlight ? "bg-lime-200" : current ? "bg-lime-50" : ""
+      className={`min-w-[76px] flex-1 shrink-0 border-l border-ink first-of-type:border-l-0 sm:min-w-[110px] ${
+        highlight ? "bg-pop" : current ? "bg-pop/40" : ""
       }`}
     >
       {children}

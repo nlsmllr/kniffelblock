@@ -8,6 +8,7 @@ import {
   AppHeader,
   Card,
   CardTitle,
+  ErrorBox,
   iconButton,
   inputClass,
   primaryButton,
@@ -86,7 +87,7 @@ export function OnlineGame({ code }: { code: string }) {
       <Shell>
         <Card>
           <CardTitle>Spiel nicht gefunden</CardTitle>
-          <p className="text-sm text-lime-800/70">
+          <p className="text-sm">
             Den Code <b className="font-mono">{code}</b> gibt es nicht (mehr).
             Spiele werden nach 24 Stunden gelöscht.
           </p>
@@ -101,16 +102,16 @@ export function OnlineGame({ code }: { code: string }) {
   if (!game || playerId === null || username === null) {
     return (
       <Shell>
-        <p className="py-10 text-center text-sm text-lime-800/70">Lade Spiel…</p>
+        <p className="font-display py-16 text-center text-3xl uppercase">Lade Spiel…</p>
       </Shell>
     );
   }
 
   const isHost = game.hostId === playerId;
   const errorBox = error && (
-    <p className="mb-3 rounded-xl bg-red-100 px-3 py-2 text-sm font-semibold text-red-700">
-      {error}
-    </p>
+    <div className="mb-4">
+      <ErrorBox>{error}</ErrorBox>
+    </div>
   );
 
   function leave() {
@@ -163,7 +164,7 @@ export function OnlineGame({ code }: { code: string }) {
     >
       {errorBox}
       {!me && (
-        <p className="mb-3 rounded-xl bg-lime-100 px-3 py-2 text-sm text-lime-900">
+        <p className="mb-4 border-[3px] border-ink bg-pop px-3 py-2 text-sm font-bold uppercase">
           Das Spiel läuft bereits – du schaust zu.
         </p>
       )}
@@ -199,7 +200,7 @@ export function OnlineGame({ code }: { code: string }) {
               Revanche
             </button>
           ) : (
-            <p className="text-center text-sm text-lime-800/70">
+            <p className="text-center text-sm font-bold uppercase">
               Der Host kann eine Revanche starten.
             </p>
           )
@@ -299,7 +300,7 @@ function JoinForm({
   return (
     <Card>
       <CardTitle>Spiel {game.id} beitreten</CardTitle>
-      <p className="text-sm text-lime-800/70">
+      <p className="text-sm">
         {host ? `${host.name} hat dich eingeladen. ` : ""}
         Mit dabei: {game.players.map((p) => p.name).join(", ") || "noch niemand"}
       </p>
@@ -310,7 +311,7 @@ function JoinForm({
           onJoin(name);
         }}
       >
-        <label htmlFor="join-name" className="text-sm font-bold text-lime-800">
+        <label htmlFor="join-name" className="text-sm font-bold uppercase">
           Dein Name
         </label>
         <input
@@ -351,8 +352,8 @@ function Lobby({
   return (
     <div className="flex flex-col gap-4">
       <Card>
-        <p className="text-center text-sm text-lime-800/70">Spielcode</p>
-        <p className="text-center font-mono text-4xl font-bold tracking-[0.3em] text-red-700">
+        <p className="text-center text-sm font-bold uppercase">Spielcode</p>
+        <p className="font-display -rotate-2 bg-ink py-3 text-center text-6xl leading-none tracking-[0.15em] text-paper">
           {game.id}
         </p>
         <ShareButton code={game.id} />
@@ -360,19 +361,19 @@ function Lobby({
 
       <Card>
         <CardTitle>Spieler ({game.players.length})</CardTitle>
-        <ul className="flex flex-col gap-1">
+        <ul className="flex flex-col gap-2">
           {game.players.map((p) => (
             <li
               key={p.id}
-              className="flex items-center justify-between rounded-lg bg-white/60 px-3 py-2 text-sm text-lime-900"
+              className="flex items-center justify-between border-[3px] border-ink bg-white/60 px-3 py-2 text-sm uppercase"
             >
               <span className="flex items-center gap-1.5 font-semibold">
                 {p.id === game.hostId && (
-                  <Crown className="size-3.5 text-red-600" aria-label="Host" />
+                  <Crown className="size-3.5 text-signal" fill="currentColor" aria-label="Host" />
                 )}
                 {p.name}
                 {p.id === playerId && (
-                  <span className="font-normal text-lime-800/50">(du)</span>
+                  <span className="font-normal text-mute">(du)</span>
                 )}
               </span>
               {isHost && p.id !== playerId && (
@@ -380,7 +381,7 @@ function Lobby({
                   type="button"
                   onClick={() => onKick(p.id)}
                   aria-label={`${p.name} entfernen`}
-                  className="rounded p-1 text-lime-800/50 hover:bg-red-700 hover:text-orange-50"
+                  className="border-2 border-transparent p-0.5 hover:border-ink hover:bg-signal hover:text-paper"
                 >
                   <X className="size-4" aria-hidden />
                 </button>
@@ -398,7 +399,7 @@ function Lobby({
             {game.players.length === 1 ? "Alleine starten" : "Spiel starten"}
           </button>
         ) : (
-          <p className="text-center text-sm text-lime-800/70">
+          <p className="text-center text-sm font-bold uppercase">
             Warte, bis der Host das Spiel startet…
           </p>
         )}
@@ -417,7 +418,7 @@ function HostTools({
   onKick: (id: string) => void;
 }) {
   return (
-    <details className="text-sm text-lime-800/70">
+    <details className="text-sm font-bold uppercase">
       <summary className="cursor-pointer">Host: Spieler entfernen</summary>
       <ul className="mt-2 flex flex-wrap gap-2">
         {game.players

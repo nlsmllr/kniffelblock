@@ -8,6 +8,7 @@ import {
   AppHeader,
   Card,
   CardTitle,
+  ErrorBox,
   inputClass,
   primaryButton,
   secondaryButton,
@@ -45,12 +46,12 @@ export function Home() {
   }
 
   return (
-    <div className="mx-auto flex w-full max-w-md flex-col gap-4 p-4">
+    <div className="mx-auto flex w-full max-w-md flex-col gap-5 p-4">
       <AppHeader />
 
       <Card>
-        <label htmlFor="username" className="text-sm font-bold text-lime-800">
-          Dein Name
+        <label htmlFor="username" className="font-display text-2xl leading-none uppercase">
+          <span className="text-signal">01</span> Dein Name
         </label>
         <input
           id="username"
@@ -68,9 +69,9 @@ export function Home() {
 
       <Card>
         <CardTitle icon={<Smartphone className="size-5" />}>
-          Auf diesem Gerät
+          <span className="text-signal">02</span> Auf diesem Gerät
         </CardTitle>
-        <p className="text-sm text-lime-800/70">
+        <p className="text-sm">
           Mehrere Spieler teilen sich ein Telefon oder einen Rechner und geben
           es nach jedem Zug weiter.
         </p>
@@ -81,9 +82,9 @@ export function Home() {
 
       <Card>
         <CardTitle icon={<Globe className="size-5" />}>
-          Online mit Freunden
+          <span className="text-signal">03</span> Online
         </CardTitle>
-        <p className="text-sm text-lime-800/70">
+        <p className="text-sm">
           Jeder spielt auf seinem eigenen Gerät. Erstelle ein Spiel und teile
           den Code oder Link.
         </p>
@@ -95,7 +96,7 @@ export function Home() {
         >
           Online-Spiel erstellen
         </button>
-        <form onSubmit={join} className="flex gap-2">
+        <form onSubmit={join} className="flex gap-3">
           <input
             value={code}
             onChange={(e) => {
@@ -117,14 +118,12 @@ export function Home() {
       </Card>
 
       {error && (
-        <p className="rounded-xl bg-red-100 px-3 py-2 text-sm font-semibold text-red-700">
-          {error}
-        </p>
+        <ErrorBox>{error}</ErrorBox>
       )}
 
       <Link
         href="/block"
-        className="inline-flex items-center justify-center gap-2 py-2 text-sm font-semibold text-lime-800/70 hover:text-lime-800"
+        className="inline-flex items-center justify-center gap-2 self-center border-b-[3px] border-ink py-1 text-sm font-bold uppercase hover:bg-pop"
       >
         <NotebookPen className="size-4" aria-hidden />
         Nur Block (mit echten Würfeln)

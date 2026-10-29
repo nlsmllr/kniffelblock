@@ -49,13 +49,13 @@ function Setup({ defaultName }: { defaultName: string }) {
   }
 
   return (
-    <div className="mx-auto flex w-full max-w-md flex-col gap-4 p-4">
+    <div className="mx-auto flex w-full max-w-md flex-col gap-5 p-4">
       <AppHeader />
       <Card>
         <CardTitle>Wer spielt mit?</CardTitle>
         <ul className="flex flex-col gap-2">
           {names.map((n, i) => (
-            <li key={i} className="flex gap-2">
+            <li key={i} className="flex gap-3">
               <input
                 value={n}
                 maxLength={20}
@@ -150,7 +150,7 @@ function Playing({ game }: { game: GameState }) {
         onHold={(held) => update((s) => setHeld(s, current.id, held))}
         onScore={(cat) => update((s) => chooseCategory(s, current.id, cat))}
         finishedActions={
-          <div className="flex gap-2">
+          <div className="flex gap-3">
             <button
               type="button"
               onClick={() => update(restartGame)}

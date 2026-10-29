@@ -31,21 +31,25 @@ export function Die({
       disabled={disabled}
       aria-pressed={held}
       aria-label={`Würfel ${index + 1}: ${value}${held ? ", gehalten" : ""}`}
-      className={`relative flex flex-col items-center gap-1 rounded-2xl outline-none transition-transform focus-visible:ring-2 focus-visible:ring-lime-800 disabled:cursor-default ${
-        held ? "-translate-y-1.5" : ""
-      }`}
+      className="group relative flex flex-col items-center gap-1.5 outline-none disabled:cursor-default"
     >
-      <DieFace
-        value={value}
-        held={held}
-        className={`size-14 sm:size-16 drop-shadow-sm ${rolling ? "animate-dice-roll" : ""} ${
-          faded ? "opacity-40" : ""
-        }`}
-        style={rolling ? { animationDelay: `${index * 40}ms` } : undefined}
-      />
       <span
-        className={`text-[10px] font-bold uppercase tracking-wider ${
-          held ? "text-red-700" : "text-transparent"
+        className={`block border-[3px] border-ink transition-[transform,box-shadow] group-focus-visible:outline-[3px] group-focus-visible:outline-offset-2 group-focus-visible:outline-signal ${
+          held
+            ? "translate-x-[3px] translate-y-[3px] bg-signal shadow-none"
+            : "bg-white shadow-hard"
+        } ${faded ? "opacity-35" : ""}`}
+      >
+        <DieFace
+          value={value}
+          held={held}
+          className={`size-12 sm:size-14 ${rolling ? "animate-dice-roll" : ""}`}
+          style={rolling ? { animationDelay: `${index * 40}ms` } : undefined}
+        />
+      </span>
+      <span
+        className={`px-1 text-[10px] font-bold tracking-[0.15em] uppercase ${
+          held ? "bg-ink text-paper" : "text-transparent"
         }`}
       >
         Halten
@@ -57,34 +61,37 @@ export function Die({
 export function DieFace({
   value,
   held,
+  framed,
   className,
   style,
 }: {
   value: number;
   held?: boolean;
+  /** Draw its own square outline (for small inline dice). */
+  framed?: boolean;
   className?: string;
   style?: React.CSSProperties;
 }) {
   return (
     <svg viewBox="0 0 100 100" className={className} style={style} aria-hidden>
-      <rect
-        x="4"
-        y="4"
-        width="92"
-        height="92"
-        rx="20"
-        className={
-          held ? "fill-red-700 stroke-red-800" : "fill-white stroke-lime-800/40"
-        }
-        strokeWidth="4"
-      />
+      {framed && (
+        <rect
+          x="5"
+          y="5"
+          width="90"
+          height="90"
+          className="fill-white stroke-ink"
+          strokeWidth="10"
+        />
+      )}
       {PIPS[value]?.map(([cx, cy], i) => (
-        <circle
+        <rect
           key={i}
-          cx={cx}
-          cy={cy}
-          r="9"
-          className={held ? "fill-orange-50" : "fill-lime-900"}
+          x={cx - 9}
+          y={cy - 9}
+          width="18"
+          height="18"
+          className={held ? "fill-paper" : "fill-ink"}
         />
       ))}
     </svg>

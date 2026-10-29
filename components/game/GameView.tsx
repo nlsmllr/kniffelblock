@@ -13,6 +13,7 @@ import {
 } from "@/lib/kniffel";
 import { Die } from "./Die";
 import { ScoreSheet } from "./ScoreSheet";
+import { primaryButton } from "./ui";
 
 export function GameView({
   state,
@@ -74,7 +75,7 @@ export function GameView({
       : `Warte auf ${current?.name}…`;
 
   return (
-    <div className="flex flex-col gap-3 pb-64 sm:pb-72">
+    <div className="flex flex-col gap-4 pb-64 sm:pb-72">
       {state.phase === "finished" && (
         <Results state={state} actions={finishedActions} />
       )}
@@ -89,20 +90,29 @@ export function GameView({
       {footer}
 
       {playing && (
-        <div className="fixed inset-x-0 bottom-0 z-50 border-t-2 border-red-700 bg-orange-50/95 px-4 pt-3 pb-[max(0.75rem,env(safe-area-inset-bottom))] shadow-[0_-8px_24px_rgba(0,0,0,0.08)] backdrop-blur">
+        <div className="fixed inset-x-0 bottom-0 z-50 border-t-[3px] border-ink bg-paper px-4 pt-3 pb-[max(0.75rem,env(safe-area-inset-bottom))]">
           <div className="mx-auto flex max-w-xl flex-col gap-3">
-            <div className="flex items-center justify-between text-sm">
+            <div className="flex items-stretch justify-between gap-2 text-sm">
               <span
-                className={`font-bold ${canAct || isMe ? "text-red-700" : "text-lime-800"}`}
+                className={`truncate px-2 py-0.5 font-bold uppercase ${
+                  canAct || isMe ? "bg-signal text-paper" : "bg-stone"
+                }`}
               >
                 {status}
               </span>
-              <span className="font-mono text-lime-800/70">
-                Wurf {ROLLS_PER_TURN - state.rollsLeft}/{ROLLS_PER_TURN}
+              <span className="flex items-center gap-1" aria-label={`Wurf ${ROLLS_PER_TURN - state.rollsLeft} von ${ROLLS_PER_TURN}`}>
+                {Array.from({ length: ROLLS_PER_TURN }, (_, i) => (
+                  <span
+                    key={i}
+                    className={`size-3 border-2 border-ink ${
+                      i < ROLLS_PER_TURN - state.rollsLeft ? "bg-ink" : ""
+                    }`}
+                  />
+                ))}
               </span>
             </div>
 
-            <div className="flex justify-between gap-1 sm:justify-center sm:gap-4">
+            <div className="flex justify-between gap-1 sm:justify-center sm:gap-5">
               {state.dice.map((d, i) => (
                 <Die
                   key={`${i}-${state.rollId}`}
@@ -117,17 +127,17 @@ export function GameView({
               ))}
             </div>
 
-            <div className="flex gap-2">
+            <div className="flex gap-3">
               <button
                 type="button"
                 onClick={() => onRoll(state.held)}
                 disabled={!canRoll}
-                className="inline-flex flex-1 items-center justify-center gap-2 rounded-xl bg-lime-800 px-4 py-3 text-sm font-bold text-orange-50 transition-colors hover:bg-lime-900 disabled:bg-lime-800/30"
+                className={`${primaryButton} flex-1`}
               >
                 <Dices className="size-5" aria-hidden />
                 {rolled ? "Nochmal" : "Würfeln"}
-                <span className="font-mono font-normal opacity-70">
-                  ({state.rollsLeft})
+                <span className="font-normal opacity-70">
+                  [{state.rollsLeft}]
                 </span>
               </button>
               {selected && canAct && (
@@ -135,20 +145,19 @@ export function GameView({
                   type="button"
                   onClick={() => select(selected)}
                   disabled={busy}
-                  className="inline-flex flex-1 items-center justify-center gap-2 rounded-xl bg-red-700 px-4 py-3 text-sm font-bold text-orange-50 transition-colors hover:bg-red-800 disabled:opacity-50"
+                  className={`${primaryButton} flex-1 border-signal! bg-signal! shadow-hard!`}
                 >
                   <Check className="size-5" aria-hidden />
                   <span className="truncate">
-                    {CATEGORY_LABELS[selected]}:{" "}
-                    {scoreFor(selected, state.dice)}
+                    {CATEGORY_LABELS[selected]}: {scoreFor(selected, state.dice)}
                   </span>
                 </button>
               )}
             </div>
             {canAct && rolled && !selected && (
-              <p className="-mt-1 text-center text-xs text-lime-800/70">
+              <p className="-mt-1 text-center text-[11px] tracking-wide text-mute uppercase">
                 {state.rollsLeft > 0
-                  ? "Würfel antippen zum Halten · Feld im Block wählen zum Eintragen"
+                  ? "Würfel antippen = halten · Feld im Block = eintragen"
                   : "Keine Würfe mehr – wähle ein Feld im Block"}
               </p>
             )}
@@ -169,26 +178,26 @@ function Results({
   const ranked = ranking(state);
   const top = ranked[0]?.total ?? 0;
   return (
-    <div className="rounded-2xl border-2 border-red-700 bg-orange-50 p-4">
-      <h2 className="mb-3 flex items-center gap-2 text-lg font-bold text-red-700">
-        <Trophy className="size-5" aria-hidden /> Spiel beendet
+    <div className="border-[3px] border-ink bg-paper shadow-hard">
+      <h2 className="font-display flex items-center gap-2 bg-signal px-4 py-2 text-3xl leading-none text-paper uppercase">
+        <Trophy className="size-6" aria-hidden /> Spiel beendet
       </h2>
-      <ol className="mb-4 flex flex-col gap-1">
+      <ol className="flex flex-col">
         {ranked.map((p, i) => (
           <li
             key={p.id}
-            className={`flex items-center justify-between rounded-lg px-3 py-2 font-mono text-sm ${
-              p.total === top ? "bg-lime-200 font-bold" : "bg-white/60"
+            className={`flex items-center justify-between border-t-[3px] border-ink px-4 py-2 text-sm font-bold uppercase ${
+              p.total === top ? "bg-pop" : ""
             }`}
           >
-            <span className="text-lime-900">
-              {i + 1}. {p.name}
+            <span>
+              {String(i + 1).padStart(2, "0")} — {p.name}
             </span>
-            <span className="text-red-700">{p.total}</span>
+            <span className="font-display text-2xl text-signal">{p.total}</span>
           </li>
         ))}
       </ol>
-      {actions}
+      {actions && <div className="border-t-[3px] border-ink p-4">{actions}</div>}
     </div>
   );
 }
