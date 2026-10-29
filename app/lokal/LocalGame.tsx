@@ -124,7 +124,7 @@ function Playing({ game }: { game: GameState }) {
   }
 
   return (
-    <div className="mx-auto w-full max-w-5xl p-4">
+    <div className="mx-auto flex h-dvh w-full max-w-5xl flex-col p-4 pb-0">
       <AppHeader>
         <button
           type="button"

@@ -221,7 +221,7 @@ function Shell({
 }) {
   return (
     <div
-      className={`mx-auto flex w-full flex-col p-4 ${wide ? "max-w-5xl" : "max-w-md"}`}
+      className={`mx-auto flex w-full flex-col p-4 ${wide ? "h-dvh max-w-5xl pb-0" : "max-w-md"}`}
     >
       <AppHeader>{actions}</AppHeader>
       {children}
