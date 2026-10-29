@@ -154,13 +154,6 @@ export function GameView({
                 </button>
               )}
             </div>
-            {canAct && rolled && !selected && (
-              <p className="-mt-1 text-center text-[11px] tracking-wide text-mute uppercase">
-                {state.rollsLeft > 0
-                  ? "Würfel antippen = halten · Feld im Block = eintragen"
-                  : "Keine Würfe mehr – wähle ein Feld im Block"}
-              </p>
-            )}
           </div>
         </div>
       )}
