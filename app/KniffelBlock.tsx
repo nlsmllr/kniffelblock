@@ -194,7 +194,7 @@ export function Kniffelblock() {
             onRemove={removePlayer}
             canRemove={players.length > 1}
           />
-          <div className="w-full border-b-[3px] border-ink bg-moss px-2 py-0.5 text-[10px] font-bold uppercase tracking-[0.3em] text-paper">Unten</div>
+          <div className="w-full border-b-[3px] border-ink bg-mint px-2 py-0.5 text-[10px] font-bold uppercase tracking-[0.3em]">Unten</div>
           <LowerSection players={players} onScore={setScore} />
         </div>
       </div>
@@ -320,7 +320,7 @@ function UpperSection({
                   type="button"
                   aria-label={`${p.name || `Spieler ${index + 1}`} entfernen`}
                   onClick={() => onRemove(p.id)}
-                  className="absolute right-1 top-1/2 -translate-y-1/2 p-0.5 text-mute transition-colors hover:bg-signal hover:text-paper"
+                  className="absolute right-1 top-1/2 -translate-y-1/2 p-0.5 text-mute transition-colors hover:bg-coral"
                 >
                   <X className="size-3.5" aria-hidden="true" />
                 </button>

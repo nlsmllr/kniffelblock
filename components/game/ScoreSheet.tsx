@@ -63,11 +63,11 @@ export function ScoreSheet({
                 }
                 className={`relative flex h-full min-h-11 w-full items-center justify-center text-sm tabular-nums outline-none focus-visible:bg-pop ${
                   isSelected
-                    ? "bg-ink text-paper"
+                    ? "bg-lavender font-bold outline-[3px] -outline-offset-[3px] outline-ink"
                     : clickable
                       ? "cursor-pointer hover:bg-pop"
                       : justScored
-                        ? "bg-signal text-paper"
+                        ? "bg-coral"
                         : ""
                 }`}
               >
@@ -117,7 +117,7 @@ export function ScoreSheet({
               <Cell key={p.id} current={isCurrent}>
                 <div
                   className={`flex min-h-11 items-center justify-center gap-1 px-1 py-1 text-center text-xs font-bold uppercase sm:text-sm ${
-                    isCurrent ? "bg-ink text-paper" : ""
+                    isCurrent ? "bg-lavender" : ""
                   }`}
                 >
                   {leader && (
@@ -216,7 +216,7 @@ type P = GameState["players"][number];
 
 function SectionBar({ children }: { children: React.ReactNode }) {
   return (
-    <div className="sticky left-0 w-full border-b-[3px] border-ink bg-moss px-2 py-0.5 text-[10px] font-bold tracking-[0.3em] text-paper uppercase sm:px-3">
+    <div className="sticky left-0 w-full border-b-[3px] border-ink bg-mint px-2 py-0.5 text-[10px] font-bold tracking-[0.3em] uppercase sm:px-3">
       {children}
     </div>
   );
@@ -325,7 +325,7 @@ function Cell({
   return (
     <div
       className={`min-w-[76px] flex-1 shrink-0 border-l border-ink first-of-type:border-l-0 sm:min-w-[110px] ${
-        highlight ? "bg-pop" : current ? "bg-pop/40" : ""
+        highlight ? "bg-mint" : current ? "bg-pop/60" : ""
       }`}
     >
       {children}
