@@ -75,7 +75,7 @@ export function GameView({
       : `Warte auf ${current?.name}…`;
 
   return (
-    <div className="flex flex-col gap-4 pb-64 sm:pb-72">
+    <div className="flex flex-col gap-4 pb-72 sm:pb-80">
       {state.phase === "finished" && (
         <Results state={state} actions={finishedActions} />
       )}
@@ -90,7 +90,7 @@ export function GameView({
       {footer}
 
       {playing && (
-        <div className="fixed inset-x-0 bottom-0 z-50 border-t-[3px] border-ink bg-paper px-4 pt-3 pb-[max(0.75rem,env(safe-area-inset-bottom))]">
+        <div className="fixed inset-x-0 bottom-0 z-50 border-t-[3px] border-ink bg-paper px-4 pt-3 pb-[calc(1.5rem+env(safe-area-inset-bottom))]">
           <div className="mx-auto flex max-w-xl flex-col gap-3">
             <div className="flex items-stretch justify-between gap-2 text-sm">
               <span
@@ -132,9 +132,9 @@ export function GameView({
                 type="button"
                 onClick={() => onRoll(state.held)}
                 disabled={!canRoll}
-                className={`${primaryButton} flex-1`}
+                className={`${primaryButton} min-w-0 flex-1 basis-0 px-3!`}
               >
-                <Dices className="size-5" aria-hidden />
+                <Dices className="size-5 shrink-0" aria-hidden />
                 {rolled ? "Nochmal" : "Würfeln"}
                 <span className="font-normal opacity-70">
                   [{state.rollsLeft}]
@@ -145,11 +145,12 @@ export function GameView({
                   type="button"
                   onClick={() => select(selected)}
                   disabled={busy}
-                  className={`${primaryButton} flex-1 bg-mint! hover:bg-pop!`}
+                  className={`${primaryButton} min-w-0 flex-1 basis-0 bg-mint! px-3! tracking-normal! hover:bg-pop!`}
                 >
-                  <Check className="size-5" aria-hidden />
-                  <span className="truncate">
-                    {CATEGORY_LABELS[selected]}: {scoreFor(selected, state.dice)}
+                  <Check className="size-5 shrink-0" aria-hidden />
+                  <span className="truncate">{CATEGORY_LABELS[selected]}</span>
+                  <span className="shrink-0">
+                    {scoreFor(selected, state.dice)}
                   </span>
                 </button>
               )}
